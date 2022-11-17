@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Elecguitar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/elecguitar_blue</item>
+        <item name="colorPrimaryVariant">@color/elecguitar_blue</item>
+        <item name="colorOnPrimary">@color/elecguitar_white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/elecguitar_yellow</item>
+        <item name="colorSecondaryVariant">@color/elecguitar_yellow</item>
+        <item name="colorOnSecondary">@color/elecguitar_black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/elecguitar_statusbar_color</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
