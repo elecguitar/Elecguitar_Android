@@ -26,18 +26,18 @@ class ApplicationClass : Application() {
             .connectTimeout(5000, TimeUnit.MILLISECONDS)
             .connectTimeout(30, TimeUnit.SECONDS).build()
 
-        // 앱이 처음 생성되는 순간, retrofit 인스턴스를 생성
-        retrofit = Retrofit.Builder()
-            .baseUrl(SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-
-        // 앱이 처음 생성되는 순간, evRetrofit 인스턴스를 생성 - 공공데이터 api와 통신하기 위한 retrofit 객체
-        evRetrofit = Retrofit.Builder()
-            .baseUrl(EV_SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
+//        // 앱이 처음 생성되는 순간, retrofit 인스턴스를 생성
+//        retrofit = Retrofit.Builder()
+//            .baseUrl(SERVER_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(okHttpClient)
+//            .build()
+//
+//        // 앱이 처음 생성되는 순간, evRetrofit 인스턴스를 생성 - 공공데이터 api와 통신하기 위한 retrofit 객체
+//        evRetrofit = Retrofit.Builder()
+//            .baseUrl(EV_SERVER_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(okHttpClient)
+//            .build()
     }
 }
