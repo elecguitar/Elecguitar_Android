@@ -40,6 +40,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var cameraFocus: LatLng
     private var chargeStationList: MutableList<ChargeStation> = mutableListOf()
+    private var markerList: MutableList<Marker> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +83,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val marker = Marker()
         marker.position = cameraFocus
         marker.map = naverMap
-        marker.icon = OverlayImage.fromResource(R.drawable.marker)
+        marker.icon = OverlayImage.fromResource(R.drawable.focus_marker)
 
         // 사용자 현재 위치 받아오기
         var currentLocation: Location?
@@ -186,6 +187,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             code: Int,
             responseData: SearchResponse
         ) {
+            updateMarkers(responseData.chargeStationList)
             Log.d(TAG, "onSuccess: ${chargeStationList}")
         }
 
@@ -195,6 +197,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         override fun onFailure(code: Int) {
             Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+        private fun updateMarkers(list: List<ChargeStation>){
+            if(list != null){
+                markerList.forEach{
+                    it.map = null
+                }
+                markerList.clear()
+                chargeStationList.clear()
+                chargeStationList.addAll(list)
+                chargeStationList.forEach{
+                    val sMarker = Marker()
+                    sMarker.position = LatLng(it.lat.toDouble(), it.longi.toDouble())
+                    sMarker.map = naverMap
+                    sMarker.icon = OverlayImage.fromResource(R.drawable.ev_marker)
+                    markerList.add(sMarker)
+                }
+            }
         }
 
     }

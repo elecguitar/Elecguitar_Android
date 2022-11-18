@@ -28,7 +28,7 @@ class ChargeStationService {
             }
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+
             }
 
         })
