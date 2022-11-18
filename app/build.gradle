@@ -51,7 +51,7 @@ dependencies {
     //viewmodel ktx
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     //fragment ktx
-    implementation "androidx.fragment:fragment-ktx:1.5.4"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.2.1"
@@ -65,6 +65,11 @@ dependencies {
 
     // viewpager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.15.0'
+    // 네이버 지도 위치
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

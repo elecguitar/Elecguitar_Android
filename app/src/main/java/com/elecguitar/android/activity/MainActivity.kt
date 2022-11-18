@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.apply {
             adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
             registerOnPageChangeCallback(PageChangeCallback())
+            isUserInputEnabled = false
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener {

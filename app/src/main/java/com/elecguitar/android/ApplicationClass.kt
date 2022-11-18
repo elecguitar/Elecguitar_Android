@@ -8,8 +8,10 @@ import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     companion object{
-        const val SERVER_URL = ""
-        const val EV_SERVER_URL = ""
+        private const val IP = "192.168.0.2"
+        const val CHARGE_STATION_SERVICE_KEY = "fCAhTCQHRXevvOPci8dslVMalLrDtqce0l1VsrjGngDbLmDuHK5yJ1p9QAxFz92myDShnfidUhtf9XpvGcJozQ%3D%3D"
+        const val SERVER_URL = "http://${IP}:8080/carapi/"
+        const val EV_SERVER_URL = "http://api.odcloud.kr/api/EvInfoServiceV2/v1/"
 
         lateinit var retrofit: Retrofit
         lateinit var evRetrofit: Retrofit
@@ -26,18 +28,18 @@ class ApplicationClass : Application() {
             .connectTimeout(5000, TimeUnit.MILLISECONDS)
             .connectTimeout(30, TimeUnit.SECONDS).build()
 
-//        // 앱이 처음 생성되는 순간, retrofit 인스턴스를 생성
-//        retrofit = Retrofit.Builder()
-//            .baseUrl(SERVER_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .client(okHttpClient)
-//            .build()
-//
-//        // 앱이 처음 생성되는 순간, evRetrofit 인스턴스를 생성 - 공공데이터 api와 통신하기 위한 retrofit 객체
-//        evRetrofit = Retrofit.Builder()
-//            .baseUrl(EV_SERVER_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .client(okHttpClient)
-//            .build()
+        // 앱이 처음 생성되는 순간, retrofit 인스턴스를 생성
+        retrofit = Retrofit.Builder()
+            .baseUrl(SERVER_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        // 앱이 처음 생성되는 순간, evRetrofit 인스턴스를 생성 - 공공데이터 api와 통신하기 위한 retrofit 객체
+        evRetrofit = Retrofit.Builder()
+            .baseUrl(EV_SERVER_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
     }
 }
