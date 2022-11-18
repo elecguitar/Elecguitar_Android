@@ -51,7 +51,7 @@ dependencies {
     //viewmodel ktx
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     //fragment ktx
-    implementation "androidx.fragment:fragment-ktx:1.5.4"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.2.1"
