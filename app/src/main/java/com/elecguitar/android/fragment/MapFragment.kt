@@ -24,13 +24,16 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.elecguitar.android.R
 import com.elecguitar.android.databinding.FragmentMapBinding
 import com.elecguitar.android.response.ChargeStation
+import com.elecguitar.android.response.GeoCoderResponse
 import com.elecguitar.android.response.SearchResponse
 import com.elecguitar.android.service.ChargeStationService
+import com.elecguitar.android.service.GeoCoderService
 import com.elecguitar.android.util.RetrofitCallback
 import java.io.IOException
 import java.util.Locale
 
 private const val TAG = "MapFragment_싸피"
+
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentMapBinding
@@ -48,24 +51,32 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.d(TAG, "onCreate: ")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentMapBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply{
+        binding.apply {
             mapView = naverMap
         }
-        Log.d(TAG, "onViewCreated: ")
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
-        binding.naverChargeStationSearch.setOnClickListener{
+        binding.naverChargeStationSearch.setOnClickListener {
+            val res = GeoCoderService().getAddressByLatLng(
+                "${cameraFocus.longitude},${cameraFocus.latitude}",
+                GetAddressByLatLngCallback()
+            )
+            Log.d(TAG, "onViewCreated: ${res}")
             val address = getAddress(cameraFocus.latitude, cameraFocus.longitude)
             Log.d(TAG, "onViewCreated: ${address}")
-            if(address != null) {
+            if (address != null) {
                 ChargeStationService().getChargeStationByAddress(
                     address,
                     GetChargeStationByAddressCallback()
@@ -78,7 +89,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(map: NaverMap) {
         Log.d(TAG, "onMapReady: ")
         naverMap = map
-        cameraFocus = LatLng(naverMap.cameraPosition.target.latitude, naverMap.cameraPosition.target.longitude)
+        cameraFocus = LatLng(
+            naverMap.cameraPosition.target.latitude,
+            naverMap.cameraPosition.target.longitude
+        )
 
         val marker = Marker()
         marker.position = cameraFocus
@@ -92,18 +106,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 currentLocation = location
                 // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
                 // 파랑색 점, 현재 위치 표시
-                if(currentLocation != null){
+                if (currentLocation != null) {
                     naverMap.locationOverlay.run {
                         isVisible = true
                         position = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
                     }
-                }else{
+                } else {
                     naverMap.locationOverlay.run {
                         isVisible = true
-                        position = LatLng(36.1093,128.4166)
+                        position = LatLng(36.1093, 128.4166)
                     }
                 }
-                Log.d(TAG, "onMapReady: ${currentLocation}")
 
 
                 // 카메라 현재위치로 이동
@@ -124,9 +137,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
         val uiSetting = naverMap.uiSettings
-        uiSetting.isLocationButtonEnabled=true
+        uiSetting.isLocationButtonEnabled = true
 
-        locationSource = FusedLocationSource(requireActivity() ,LOCATION_PERMISSION_REQUEST_CODE )
+        locationSource = FusedLocationSource(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE)
         naverMap.locationSource = locationSource
 
 
@@ -143,13 +156,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode != LOCATION_PERMISSION_REQUEST_CODE){
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             return
         }
-        if(locationSource.onRequestPermissionsResult(requestCode,permissions,grantResults)){
-            if(!locationSource.isActivated){
+        if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
+            if (!locationSource.isActivated) {
                 naverMap.locationTrackingMode = LocationTrackingMode.None
             }
             return
@@ -164,11 +181,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
             //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
             address = geoCoder.getFromLocation(lat, lng, 1) as ArrayList<Address>
-            Log.d(TAG, "getAddress: ${address}")
+//            Log.d(TAG, "getAddress: ${address}")
             if (address.size > 0) {
                 // 주소 받아오기
                 val currentLocationAddress = address[0]
-                if(currentLocationAddress.thoroughfare != null){
+                if (currentLocationAddress.thoroughfare != null) {
                     currentLocationAddress.apply {
                         addressResult = "$thoroughfare"
                     }
@@ -182,7 +199,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    inner class GetChargeStationByAddressCallback: RetrofitCallback<SearchResponse> {
+    inner class GetChargeStationByAddressCallback : RetrofitCallback<SearchResponse> {
         override fun onSuccess(
             code: Int,
             responseData: SearchResponse
@@ -199,15 +216,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Log.d(TAG, "onResponse: Error Code $code")
         }
 
-        private fun updateMarkers(list: List<ChargeStation>){
-            if(list != null){
-                markerList.forEach{
+        private fun updateMarkers(list: List<ChargeStation>) {
+            if (list != null) {
+                markerList.forEach {
                     it.map = null
                 }
                 markerList.clear()
                 chargeStationList.clear()
                 chargeStationList.addAll(list)
-                chargeStationList.forEach{
+                chargeStationList.forEach {
                     val sMarker = Marker()
                     sMarker.position = LatLng(it.lat.toDouble(), it.longi.toDouble())
                     sMarker.map = naverMap
@@ -219,7 +236,25 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    companion object{
-        private const val LOCATION_PERMISSION_REQUEST_CODE=1004
+    inner class GetAddressByLatLngCallback : RetrofitCallback<GeoCoderResponse> {
+        override fun onSuccess(
+            code: Int,
+            responseData: GeoCoderResponse
+        ) {
+            Log.d(TAG, "onSuccess: ${responseData.results}")
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1004
     }
 }
