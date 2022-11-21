@@ -14,6 +14,7 @@ class ApplicationClass : Application() {
         // private const val IP = "192.168.0.2"
         // 민하 ip - 싸피
         // private const val IP = "192.168.33.116"
+        
         const val CHARGE_STATION_SERVICE_KEY = "fCAhTCQHRXevvOPci8dslVMalLrDtqce0l1VsrjGngDbLmDuHK5yJ1p9QAxFz92myDShnfidUhtf9XpvGcJozQ%3D%3D"
         const val NAVER_CLIENT_ID = "v6th2fex1s"
         const val NAVER_CLIENT_SECRET = "I7H6dfDPzUpiTnLsglLBx0b91ckD5FZNsgBbL5iv"
