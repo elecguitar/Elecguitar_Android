@@ -13,9 +13,10 @@ import com.elecguitar.android.R
 import com.elecguitar.android.databinding.RecyclerCarItemBinding
 import com.elecguitar.android.dto.Car
 import com.elecguitar.android.util.CommonUtil
+import com.elecguitar.android.util.ListLiveData
 
 private const val TAG = "CarAdapter_싸피"
-class CarAdapter(private val context: Context, private val datas: List<Car>): RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
+class CarAdapter(private val context: Context, var datas: MutableList<Car>): RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
 
     interface OnItemClickListener {
         fun onClick(view: View, position: Int)
@@ -51,7 +52,6 @@ class CarAdapter(private val context: Context, private val datas: List<Car>): Re
                     "${data.batteryCapacity} Ah"
                 }
 
-                Log.d(TAG, "bind: ${data}")
                 if (data.sellStatus == "시판") {
                     chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.elecguitar_yellow))
                     chip.text = "시판"
