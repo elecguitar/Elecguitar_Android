@@ -1,9 +1,9 @@
 package com.elecguitar.android.dto
 
 data class Car (
-    var id: Int = 0,
-    var name: String = "",
-    var imageUrl: String = "",
+    var carId: Int = 0,
+    var carName: String = "",
+    var img: String = "",
     var manufactureDate: String = "",
     var price: Int = 0,
     var elecMileage: Float = 0.0f,

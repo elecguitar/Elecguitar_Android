@@ -12,7 +12,7 @@ import com.elecguitar.android.R
 import com.elecguitar.android.databinding.RecyclerCarItemBinding
 import com.elecguitar.android.dto.Car
 
-class CarAdapter(private val context: Context, private val datas: MutableList<Car>): RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
+class CarAdapter(private val context: Context, private val datas: List<Car>): RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
 
     interface OnItemClickListener {
         fun onClick(view: View, position: Int)
@@ -24,9 +24,9 @@ class CarAdapter(private val context: Context, private val datas: MutableList<Ca
         fun bind(data: Car) {
             binding.apply {
                 Glide.with(context)
-                    .load(data.imageUrl)
+                    .load(data.img)
                     .into(ivCar)
-                tvName.text = data.name
+                tvName.text = data.carName
                 tvPrice.text = "${data.price} 만원"
                 tvManufactureDate.text = "${data.manufactureDate} 년"
                 tvElecMileage.text = "${data.elecMileage} km/kWh"

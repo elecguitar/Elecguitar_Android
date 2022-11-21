@@ -2,16 +2,20 @@ package com.elecguitar.android.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elecguitar.android.R
 import com.elecguitar.android.activity.MainActivity
 import com.elecguitar.android.adapter.CarAdapter
 import com.elecguitar.android.databinding.FragmentHomeBinding
 import com.elecguitar.android.dto.Car
+import com.elecguitar.android.util.RetrofitCallback
+
 
 class HomeFragment : Fragment() {
 
@@ -55,4 +59,5 @@ class HomeFragment : Fragment() {
             adapter = carAdapter
         }
     }
+
 }
