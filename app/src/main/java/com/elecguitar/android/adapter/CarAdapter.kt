@@ -2,6 +2,7 @@ package com.elecguitar.android.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,9 @@ import com.bumptech.glide.Glide
 import com.elecguitar.android.R
 import com.elecguitar.android.databinding.RecyclerCarItemBinding
 import com.elecguitar.android.dto.Car
+import com.elecguitar.android.util.CommonUtil
 
+private const val TAG = "CarAdapter_싸피"
 class CarAdapter(private val context: Context, private val datas: List<Car>): RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
 
     interface OnItemClickListener {
@@ -27,11 +30,28 @@ class CarAdapter(private val context: Context, private val datas: List<Car>): Re
                     .load(data.img)
                     .into(ivCar)
                 tvName.text = data.carName
-                tvPrice.text = "${data.price} 만원"
-                tvManufactureDate.text = "${data.manufactureDate} 년"
-                tvElecMileage.text = "${data.elecMileage} km/kWh"
-                tvBatteryCapacity.text = "${data.batteryCapacity} Ah"
 
+                tvPrice.text = if (data.price == 0) {
+                    "-"
+                } else {
+                    "${CommonUtil().makeComma(data.price)} 만원"
+                }
+
+                tvManufactureDate.text = "${data.manufactureDate} 년"
+
+                tvElecMileage.text = if (data.elecMileage == 0.0f) {
+                    "-"
+                } else {
+                    "${data.elecMileage} km/kWh"
+                }
+
+                tvBatteryCapacity.text = if (data.batteryCapacity == 0) {
+                    "-"
+                } else {
+                    "${data.batteryCapacity} Ah"
+                }
+
+                Log.d(TAG, "bind: ${data}")
                 if (data.sellStatus == "시판") {
                     chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.elecguitar_yellow))
                     chip.text = "시판"
