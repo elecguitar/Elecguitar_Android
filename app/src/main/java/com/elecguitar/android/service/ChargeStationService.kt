@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 private const val TAG = "ChargeStationService_싸피"
 class ChargeStationService {
 
@@ -21,7 +22,9 @@ class ChargeStationService {
                 call: Call<SearchResponse>,
                 response: Response<SearchResponse>
             ) {
+
                 Log.d(TAG, "onResponse: ${response}")
+
                 val res = response.body()
                 if(response.code() == 200){
                     if(res != null){
@@ -34,6 +37,7 @@ class ChargeStationService {
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 Log.d(TAG, "onFailure: ")
+
             }
 
         })

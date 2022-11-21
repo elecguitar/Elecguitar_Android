@@ -29,6 +29,8 @@ import com.elecguitar.android.response.SearchResponse
 import com.elecguitar.android.service.ChargeStationService
 import com.elecguitar.android.service.GeoCoderService
 import com.elecguitar.android.util.RetrofitCallback
+import java.io.IOException
+import java.util.Locale
 import kotlinx.coroutines.*
 
 private const val TAG = "MapFragment_싸피"
@@ -43,6 +45,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var cameraFocus: LatLng
     private var chargeStationList: MutableList<ChargeStation> = mutableListOf()
     private var regionList: MutableList<String> = mutableListOf()
+
     private var markerList: MutableList<Marker> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +65,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.apply {
             mapView = naverMap
         }
@@ -74,7 +78,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 "${cameraFocus.longitude},${cameraFocus.latitude}",
                 GetAddressByLatLngCallback()
             )
-
         }
 
     }
@@ -82,6 +85,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(map: NaverMap) {
         Log.d(TAG, "onMapReady: ")
         naverMap = map
+
         cameraFocus = LatLng(
             naverMap.cameraPosition.target.latitude,
             naverMap.cameraPosition.target.longitude
@@ -99,18 +103,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 currentLocation = location
                 // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
                 // 파랑색 점, 현재 위치 표시
+
                 if (currentLocation != null) {
                     naverMap.locationOverlay.run {
                         isVisible = true
                         position = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
                     }
+
                 } else {
                     naverMap.locationOverlay.run {
                         isVisible = true
                         position = LatLng(36.1093, 128.4166)
                     }
                 }
-
 
                 // 카메라 현재위치로 이동
                 val cameraUpdate = CameraUpdate.scrollTo(
@@ -130,9 +135,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
         val uiSetting = naverMap.uiSettings
+
         uiSetting.isLocationButtonEnabled = true
 
         locationSource = FusedLocationSource(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE)
+
         naverMap.locationSource = locationSource
 
 
@@ -149,6 +156,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -160,11 +168,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
         if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
             if (!locationSource.isActivated) {
+
                 naverMap.locationTrackingMode = LocationTrackingMode.None
             }
             return
         }
     }
+
 
 //    private fun getAddress(lat: Double, lng: Double): String? {
 //        val geoCoder = Geocoder(requireContext(), Locale.KOREA)
@@ -193,6 +203,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
 
     inner class GetChargeStationByAddressCallback : RetrofitCallback<SearchResponse> {
+
         override fun onSuccess(
             code: Int,
             responseData: SearchResponse
@@ -213,6 +224,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 chargeStationList.addAll(list)
                 Log.d(TAG, "updateMarkers: ${chargeStationList}")
                 chargeStationList.forEach {
+
                     val sMarker = Marker()
                     sMarker.position = LatLng(it.lat.toDouble(), it.longi.toDouble())
                     sMarker.map = naverMap

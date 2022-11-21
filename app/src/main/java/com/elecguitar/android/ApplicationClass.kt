@@ -10,14 +10,16 @@ import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     companion object{
-        private const val IP = "192.168.0.2"
+        // 유호 ip
+        // private const val IP = "192.168.0.2"
+        // 민하 ip - 싸피
+        // private const val IP = "192.168.33.116"
         const val CHARGE_STATION_SERVICE_KEY = "fCAhTCQHRXevvOPci8dslVMalLrDtqce0l1VsrjGngDbLmDuHK5yJ1p9QAxFz92myDShnfidUhtf9XpvGcJozQ%3D%3D"
         const val NAVER_CLIENT_ID = "v6th2fex1s"
         const val NAVER_CLIENT_SECRET = "I7H6dfDPzUpiTnLsglLBx0b91ckD5FZNsgBbL5iv"
         const val SERVER_URL = "http://${IP}:8080/carapi/"
         const val EV_SERVER_URL = "http://api.odcloud.kr/api/EvInfoServiceV2/v1/"
         const val GEOCODER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/"
-
 
         lateinit var retrofit: Retrofit
         lateinit var evRetrofit: Retrofit
@@ -42,7 +44,6 @@ class ApplicationClass : Application() {
         val okHttpClient = OkHttpClient.Builder()
             .readTimeout(5000, TimeUnit.MILLISECONDS)
             .connectTimeout(5000, TimeUnit.MILLISECONDS)
-//            //             로그캣에 okhttp.OkHttpClient로 검색하면 http 통신 내용을 보여줍니다.
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
@@ -50,7 +51,6 @@ class ApplicationClass : Application() {
             .addNetworkInterceptor(geoCoderInterceptor)
             .readTimeout(5000, TimeUnit.MILLISECONDS)
             .connectTimeout(5000, TimeUnit.MILLISECONDS)
-//            //             로그캣에 okhttp.OkHttpClient로 검색하면 http 통신 내용을 보여줍니다.
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
@@ -73,5 +73,6 @@ class ApplicationClass : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .client(naverOkHttpClient)
             .build()
+
     }
 }
