@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.naver.maps.geometry.LatLng
@@ -29,6 +30,7 @@ import com.elecguitar.android.response.SearchResponse
 import com.elecguitar.android.service.ChargeStationService
 import com.elecguitar.android.service.GeoCoderService
 import com.elecguitar.android.util.RetrofitCallback
+import com.elecguitar.android.viewmodel.MainViewModel
 import java.io.IOException
 import java.util.Locale
 import kotlinx.coroutines.*
@@ -38,6 +40,7 @@ private const val TAG = "MapFragment_싸피"
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentMapBinding
+    private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -72,12 +75,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
-        binding.naverChargeStationSearch.setOnClickListener {
-            Log.d(TAG, "onViewCreated: ${cameraFocus.longitude},${cameraFocus.latitude}")
-            GeoCoderService().getAddressByLatLng(
-                "${cameraFocus.longitude},${cameraFocus.latitude}",
-                GetAddressByLatLngCallback()
-            )
+        binding.apply{
+            naverChargeStationSearch.setOnClickListener {
+                Log.d(TAG, "onViewCreated: ${cameraFocus.longitude},${cameraFocus.latitude}")
+                GeoCoderService().getAddressByLatLng(
+                    "${cameraFocus.longitude},${cameraFocus.latitude}",
+                    GetAddressByLatLngCallback()
+                )
+            }
         }
 
     }
@@ -224,11 +229,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 chargeStationList.addAll(list)
                 Log.d(TAG, "updateMarkers: ${chargeStationList}")
                 chargeStationList.forEach {
-
-                    val sMarker = Marker()
-                    sMarker.position = LatLng(it.lat.toDouble(), it.longi.toDouble())
-                    sMarker.map = naverMap
-                    sMarker.icon = OverlayImage.fromResource(R.drawable.ev_marker)
+                    val sMarker = Marker().apply{
+                        position = LatLng(it.lat.toDouble(), it.longi.toDouble())
+                        map = naverMap
+                        icon = OverlayImage.fromResource(R.drawable.ev_marker)
+                        setOnClickListener {
+                            chargeStationList.forEach{
+                                if(it.lat == position.latitude.toString() && it.longi == position.longitude.toString()){
+                                    mainViewModel.markerChargeStation = it
+                                    ChargeStationBottomFragment.newInstance().show(
+                                        parentFragmentManager, ChargeStationBottomFragment.TAG
+                                    )
+                                    return@forEach
+                                }
+                            }
+                            true
+                        }
+                    }
                     markerList.add(sMarker)
                 }
             }
