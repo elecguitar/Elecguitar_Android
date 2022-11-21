@@ -8,6 +8,10 @@ import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     companion object{
+        // 유호 ip
+        // private const val IP = "192.168.0.2"
+        // 민하 ip - 싸피
+        // private const val IP = "192.168.33.116"
         private const val IP = "192.168.0.2"
         const val CHARGE_STATION_SERVICE_KEY = "fCAhTCQHRXevvOPci8dslVMalLrDtqce0l1VsrjGngDbLmDuHK5yJ1p9QAxFz92myDShnfidUhtf9XpvGcJozQ%3D%3D"
         const val SERVER_URL = "http://${IP}:8080/carapi/"
