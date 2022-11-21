@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface GeoCoderApi {
 
-    @GET("v2/gc?output=json")
+    @GET("v2/gc?output=json&orders=legalcode,addr,admcode,roadaddr")
     fun getAddressByLatLng(@Query("coords") latLng:String): Call<GeoCoderResponse>
 
 }

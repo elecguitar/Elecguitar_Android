@@ -29,8 +29,7 @@ import com.elecguitar.android.response.SearchResponse
 import com.elecguitar.android.service.ChargeStationService
 import com.elecguitar.android.service.GeoCoderService
 import com.elecguitar.android.util.RetrofitCallback
-import java.io.IOException
-import java.util.Locale
+import kotlinx.coroutines.*
 
 private const val TAG = "MapFragment_싸피"
 
@@ -43,6 +42,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var cameraFocus: LatLng
     private var chargeStationList: MutableList<ChargeStation> = mutableListOf()
+    private var regionList: MutableList<String> = mutableListOf()
     private var markerList: MutableList<Marker> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,19 +69,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapView.getMapAsync(this)
 
         binding.naverChargeStationSearch.setOnClickListener {
-            val res = GeoCoderService().getAddressByLatLng(
+            Log.d(TAG, "onViewCreated: ${cameraFocus.longitude},${cameraFocus.latitude}")
+            GeoCoderService().getAddressByLatLng(
                 "${cameraFocus.longitude},${cameraFocus.latitude}",
                 GetAddressByLatLngCallback()
             )
-            Log.d(TAG, "onViewCreated: ${res}")
-            val address = getAddress(cameraFocus.latitude, cameraFocus.longitude)
-            Log.d(TAG, "onViewCreated: ${address}")
-            if (address != null) {
-                ChargeStationService().getChargeStationByAddress(
-                    address,
-                    GetChargeStationByAddressCallback()
-                )
-            }
+
         }
 
     }
@@ -173,30 +166,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun getAddress(lat: Double, lng: Double): String? {
-        val geoCoder = Geocoder(requireContext(), Locale.KOREA)
-        val address: ArrayList<Address>
-        var addressResult: String? = null
-        try {
-            //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
-            //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
-            address = geoCoder.getFromLocation(lat, lng, 1) as ArrayList<Address>
-//            Log.d(TAG, "getAddress: ${address}")
-            if (address.size > 0) {
-                // 주소 받아오기
-                val currentLocationAddress = address[0]
-                if (currentLocationAddress.thoroughfare != null) {
-                    currentLocationAddress.apply {
-                        addressResult = "$thoroughfare"
-                    }
-                }
-            }
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return addressResult
-    }
+//    private fun getAddress(lat: Double, lng: Double): String? {
+//        val geoCoder = Geocoder(requireContext(), Locale.KOREA)
+//        val address: ArrayList<Address>
+//        var addressResult: String? = null
+//        try {
+//            //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
+//            //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
+//            address = geoCoder.getFromLocation(lat, lng, 1) as ArrayList<Address>
+////            Log.d(TAG, "getAddress: ${address}")
+//            if (address.size > 0) {
+//                // 주소 받아오기
+//                val currentLocationAddress = address[0]
+//                if (currentLocationAddress.thoroughfare != null) {
+//                    currentLocationAddress.apply {
+//                        addressResult = "$thoroughfare"
+//                    }
+//                }
+//            }
+//
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//        return addressResult
+//    }
 
 
     inner class GetChargeStationByAddressCallback : RetrofitCallback<SearchResponse> {
@@ -205,7 +198,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             responseData: SearchResponse
         ) {
             updateMarkers(responseData.chargeStationList)
-            Log.d(TAG, "onSuccess: ${chargeStationList}")
         }
 
         override fun onError(t: Throwable) {
@@ -218,12 +210,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         private fun updateMarkers(list: List<ChargeStation>) {
             if (list != null) {
-                markerList.forEach {
-                    it.map = null
-                }
-                markerList.clear()
-                chargeStationList.clear()
                 chargeStationList.addAll(list)
+                Log.d(TAG, "updateMarkers: ${chargeStationList}")
                 chargeStationList.forEach {
                     val sMarker = Marker()
                     sMarker.position = LatLng(it.lat.toDouble(), it.longi.toDouble())
@@ -241,7 +229,32 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             code: Int,
             responseData: GeoCoderResponse
         ) {
-            Log.d(TAG, "onSuccess: ${responseData.results}")
+            val resultList = responseData.results
+            Log.d(TAG, "resultList: ${resultList}")
+            val regions = mutableListOf<String>()
+
+            resultList.forEach{
+                regions.add("${it.region.area1.name} ${it.region.area2.name} ${it.region.area3.name} ${it.region.area4.name}")
+            }
+
+            if(regionList.size != 0){
+                regionList = regions.distinct() as MutableList<String>
+            }
+            markerList.forEach {
+                it.map = null
+            }
+            markerList.clear()
+            chargeStationList.clear()
+
+            regions.distinct().forEach{
+
+                if (it != null) {
+                    ChargeStationService().getChargeStationByAddress(
+                        it,
+                        GetChargeStationByAddressCallback()
+                    )
+                }
+            }
         }
 
         override fun onError(t: Throwable) {

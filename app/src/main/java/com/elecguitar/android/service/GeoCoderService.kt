@@ -20,7 +20,6 @@ class GeoCoderService {
                 response: Response<GeoCoderResponse>
             ) {
                 val res = response.body()
-                Log.d(TAG, "GeoCoderResponse: ${response}")
                 if(response.code() == 200){
                     if(res != null){
                         callback.onSuccess(response.code(), res)
