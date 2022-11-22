@@ -17,14 +17,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.viewPager.apply {
+        binding.viewpager.apply {
             adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
             registerOnPageChangeCallback(PageChangeCallback())
             isUserInputEnabled = false
+            currentItem = 1
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             navigationSelected(it)
+        }
+
+        binding.fab.setOnClickListener {
+            binding.viewpager.currentItem = 1
         }
     }
 
@@ -33,15 +38,11 @@ class MainActivity : AppCompatActivity() {
 
         when (checked.itemId) {
             R.id.mapFragment -> {
-                binding.viewPager.currentItem = 0
-                return true
-            }
-            R.id.homeFragment -> {
-                binding.viewPager.currentItem = 1
+                binding.viewpager.currentItem = 0
                 return true
             }
             R.id.benefitFragment -> {
-                binding.viewPager.currentItem = 2
+                binding.viewpager.currentItem = 2
                 return true
             }
         }
