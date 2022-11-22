@@ -106,24 +106,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         getCurrPosition()
         // 사용자 현재 위치 받아오기
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            currentLocation = location
-            // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
-            // 파랑색 점, 현재 위치 표시
-
-            if (currentLocation != null) {
-                naverMap.locationOverlay.run {
-                    isVisible = true
-                    position = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
-                }
-
-            } else {
-                naverMap.locationOverlay.run {
-                    isVisible = true
-                    position = LatLng(36.1093, 128.4166)
-                }
-            }
-        }
 
         // 카메라 현재위치로 이동
         if (currentLocation != null){
@@ -136,14 +118,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             naverMap.moveCamera(cameraUpdate)
         }
 
-
         // 카메라 포커스에 현위치 정보를 담음
         cameraFocus = LatLng(
             naverMap.cameraPosition.target.latitude,
             naverMap.cameraPosition.target.longitude
         )
-        marker.position = cameraFocus
 
+        marker.position = cameraFocus
 
         val uiSetting = naverMap.uiSettings
 
@@ -237,15 +218,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 chargeStationList.forEach {
+
                     val sMarker = Marker().apply{
                         position = LatLng(it.lat.toDouble(), it.longi.toDouble())
                         map = naverMap
                         icon = OverlayImage.fromResource(R.drawable.ev_marker)
+
                         captionText = it.cpId.toString() + it.csId.toString()
                         isHideCollidedCaptions = true
 
                         setOnClickListener{
                             getCurrPosition()
+
                             val elapsedRealtime = SystemClock.elapsedRealtime()
                             if((elapsedRealtime - lastClickTime) < 1000){
                                 return@setOnClickListener true
