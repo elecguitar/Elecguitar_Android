@@ -6,6 +6,7 @@ import retrofit2.http.GET
 
 interface CarListApi {
 
-    @GET("car")
+    @GET("carapi/car")
     fun getAllCarList(): Call<List<Car>>
+
 }
