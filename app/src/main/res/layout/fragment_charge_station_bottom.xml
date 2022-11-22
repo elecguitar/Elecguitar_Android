@@ -124,6 +124,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/layout_info"
         app:layout_constraintBottom_toTopOf="@id/layout_btn"
         app:layout_constraintStart_toStartOf="parent"
