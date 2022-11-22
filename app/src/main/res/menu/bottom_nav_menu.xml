@@ -3,13 +3,14 @@
     <item
         android:id="@+id/mapFragment"
         android:icon="@drawable/map"
-        android:title="map" />
+        android:title="Map" />
+
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/logo"
-        android:title="home"/>
+        android:title=""/>
+
     <item
         android:id="@+id/benefitFragment"
         android:icon="@drawable/benefit"
-        android:title="benefit"/>
+        android:title="Benefit"/>
 </menu>
