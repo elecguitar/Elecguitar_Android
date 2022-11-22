@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    tools:context=".fragment.FilterBottomFragment">
+
+    <TextView
+        android:id="@+id/tv_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:text="브랜드"
+        android:textColor="@color/elecguitar_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        app:singleSelection="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_brand">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_1"
+            style="@style/CustomChipChoice"
+            android:text="현대"
+            app:chipIcon="@drawable/c1" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_2"
+            style="@style/CustomChipChoice"
+            android:text="기아"
+            app:chipIcon="@drawable/c2" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_3"
+            style="@style/CustomChipChoice"
+            android:text="쌍용"
+            app:chipIcon="@drawable/c3" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_4"
+            style="@style/CustomChipChoice"
+            android:text="르노코리아"
+            app:chipIcon="@drawable/c4" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_5"
+            style="@style/CustomChipChoice"
+            android:text="쉐보레"
+            app:chipIcon="@drawable/c5" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_6"
+            style="@style/CustomChipChoice"
+            android:text="제네시스"
+            app:chipIcon="@drawable/c6" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_7"
+            style="@style/CustomChipChoice"
+            android:text="BMW"
+            app:chipIcon="@drawable/c7" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_8"
+            style="@style/CustomChipChoice"
+            android:text="벤츠"
+            app:chipIcon="@drawable/c8" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_9"
+            style="@style/CustomChipChoice"
+            android:text="아우디"
+            app:chipIcon="@drawable/c9" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_10"
+            style="@style/CustomChipChoice"
+            android:text="폭스바겐"
+            app:chipIcon="@drawable/c10" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_11"
+            style="@style/CustomChipChoice"
+            android:text="볼보"
+            app:chipIcon="@drawable/c11" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_12"
+            style="@style/CustomChipChoice"
+            android:text="토요타"
+            app:chipIcon="@drawable/c12" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_13"
+            style="@style/CustomChipChoice"
+            android:text="렉서스"
+            app:chipIcon="@drawable/c13" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_14"
+            style="@style/CustomChipChoice"
+            android:text="닛산"
+            app:chipIcon="@drawable/c14" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_17"
+            style="@style/CustomChipChoice"
+            android:text="미니"
+            app:chipIcon="@drawable/c15" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_18"
+            style="@style/CustomChipChoice"
+            android:text="르노"
+            app:chipIcon="@drawable/c16" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_25"
+            style="@style/CustomChipChoice"
+            android:text="푸조"
+            app:chipIcon="@drawable/c17" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_27"
+            style="@style/CustomChipChoice"
+            android:text="DS"
+            app:chipIcon="@drawable/c18" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_28"
+            style="@style/CustomChipChoice"
+            android:text="재규어"
+            app:chipIcon="@drawable/c19" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_30"
+            style="@style/CustomChipChoice"
+            android:text="테슬라"
+            app:chipIcon="@drawable/c20" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_31"
+            style="@style/CustomChipChoice"
+            android:text="포르쉐"
+            app:chipIcon="@drawable/c21" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_47"
+            style="@style/CustomChipChoice"
+            android:text="미쓰비시"
+            app:chipIcon="@drawable/c23" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_60"
+            style="@style/CustomChipChoice"
+            android:text="미아 전기자동차"
+            app:chipIcon="@drawable/c24" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_66"
+            style="@style/CustomChipChoice"
+            android:text="쯔더우"
+            app:chipIcon="@drawable/c25" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_69"
+            style="@style/CustomChipChoice"
+            android:text="캠시스"
+            app:chipIcon="@drawable/c26" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_70"
+            style="@style/CustomChipChoice"
+            android:text="폴스타"
+            app:chipIcon="@drawable/c27" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_71"
+            style="@style/CustomChipChoice"
+            android:text="디피코"
+            app:chipIcon="@drawable/c22" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:text="가격"
+        android:textColor="@color/elecguitar_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/slider_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:labelBehavior="gone"
+        app:thumbRadius="10dp"
+        app:thumbColor="@color/white"
+        app:thumbStrokeColor="@color/elecguitar_blue"
+        app:thumbStrokeWidth="4dp"
+        app:trackColorActive="@color/elecguitar_blue"
+        app:trackColorInactive="@color/elecguitar_g3"
+        app:haloColor="@color/elecguitar_white"
+        app:haloRadius="10dp"
+        app:trackHeight="9dp"
+        app:tickVisible="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price" />
+
+    <TextView
+        android:id="@+id/tv_price_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="최저"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider_price"/>
+
+    <TextView
+        android:id="@+id/tv_price_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/nanum_square_round_regular"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="1,000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price_min" />
+
+    <TextView
+        android:id="@+id/tv_price_unit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="만원"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_price_start"
+        app:layout_constraintStart_toEndOf="@+id/tv_price_start"
+        app:layout_constraintTop_toTopOf="@+id/tv_price_start" />
+
+    <TextView
+        android:id="@+id/tv_price_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="최고"
+        app:layout_constraintEnd_toEndOf="@+id/slider_price"
+        app:layout_constraintTop_toBottomOf="@+id/slider_price"/>
+
+    <TextView
+        android:id="@+id/tv_price_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:fontFamily="@font/nanum_square_round_regular"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="12,000"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_price_unit2"
+        app:layout_constraintEnd_toStartOf="@+id/tv_price_unit2"
+        app:layout_constraintTop_toTopOf="@+id/tv_price_unit2" />
+
+    <TextView
+        android:id="@+id/tv_price_unit2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="만원"
+        app:layout_constraintEnd_toEndOf="@+id/tv_price_max"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price_max" />
+
+    <TextView
+        android:id="@+id/tv_mileage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:text="연비"
+        android:textColor="@color/elecguitar_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price_start" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/slider_mileage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:labelBehavior="gone"
+        app:thumbRadius="10dp"
+        app:thumbColor="@color/white"
+        app:thumbStrokeColor="@color/elecguitar_blue"
+        app:thumbStrokeWidth="4dp"
+        app:trackColorActive="@color/elecguitar_blue"
+        app:trackColorInactive="@color/elecguitar_g3"
+        app:haloColor="@color/elecguitar_white"
+        app:haloRadius="10dp"
+        app:trackHeight="9dp"
+        app:tickVisible="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mileage" />
+
+    <TextView
+        android:id="@+id/tv_mileage_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="최저"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider_mileage"/>
+
+    <TextView
+        android:id="@+id/tv_mileage_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/nanum_square_round_regular"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mileage_min" />
+
+    <TextView
+        android:id="@+id/tv_mileage_unit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="km/kWh"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mileage_start"
+        app:layout_constraintStart_toEndOf="@+id/tv_mileage_start"
+        app:layout_constraintTop_toTopOf="@+id/tv_mileage_start" />
+
+    <TextView
+        android:id="@+id/tv_mileage_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="최고"
+        app:layout_constraintEnd_toEndOf="@+id/slider_mileage"
+        app:layout_constraintTop_toBottomOf="@+id/slider_mileage"/>
+
+    <TextView
+        android:id="@+id/tv_mileage_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:fontFamily="@font/nanum_square_round_regular"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mileage_unit2"
+        app:layout_constraintEnd_toStartOf="@+id/tv_mileage_unit2"
+        app:layout_constraintTop_toTopOf="@+id/tv_mileage_unit2" />
+
+    <TextView
+        android:id="@+id/tv_mileage_unit2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:textSize="14sp"
+        android:textColor="@color/elecguitar_black"
+        android:text="km/kWh"
+        app:layout_constraintEnd_toEndOf="@+id/tv_mileage_max"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mileage_max" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_filter_ok"
+        android:fontFamily="@font/nanum_square_round_bold"
+        android:text="검색"
+        android:textColor="@color/elecguitar_white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mileage_start" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
