@@ -5,11 +5,13 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.naver.maps.geometry.LatLng
@@ -29,6 +31,7 @@ import com.elecguitar.android.response.SearchResponse
 import com.elecguitar.android.service.ChargeStationService
 import com.elecguitar.android.service.GeoCoderService
 import com.elecguitar.android.util.RetrofitCallback
+import com.elecguitar.android.viewmodel.MainViewModel
 import java.io.IOException
 import java.util.Locale
 import kotlinx.coroutines.*
@@ -38,6 +41,7 @@ private const val TAG = "MapFragment_싸피"
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentMapBinding
+    private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -45,6 +49,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var cameraFocus: LatLng
     private var chargeStationList: MutableList<ChargeStation> = mutableListOf()
     private var regionList: MutableList<String> = mutableListOf()
+    private var lastClickTime: Long = 0
 
     private var markerList: MutableList<Marker> = mutableListOf()
 
@@ -72,12 +77,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
-        binding.naverChargeStationSearch.setOnClickListener {
-            Log.d(TAG, "onViewCreated: ${cameraFocus.longitude},${cameraFocus.latitude}")
-            GeoCoderService().getAddressByLatLng(
-                "${cameraFocus.longitude},${cameraFocus.latitude}",
-                GetAddressByLatLngCallback()
-            )
+        binding.apply{
+            naverChargeStationSearch.setOnClickListener {
+                Log.d(TAG, "onViewCreated: ${cameraFocus.longitude},${cameraFocus.latitude}")
+                GeoCoderService().getAddressByLatLng(
+                    "${cameraFocus.longitude},${cameraFocus.latitude}",
+                    GetAddressByLatLngCallback()
+                )
+            }
         }
 
     }
@@ -118,13 +125,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 // 카메라 현재위치로 이동
-                val cameraUpdate = CameraUpdate.scrollTo(
-                    LatLng(
-                        currentLocation!!.latitude,
-                        currentLocation!!.longitude
+                if (currentLocation != null){
+                    val cameraUpdate = CameraUpdate.scrollTo(
+                        LatLng(
+                            currentLocation!!.latitude,
+                            currentLocation!!.longitude
+                        )
                     )
-                )
-                naverMap.moveCamera(cameraUpdate)
+                    naverMap.moveCamera(cameraUpdate)
+                }
+
 
                 // 카메라 포커스에 현위치 정보를 담음
                 cameraFocus = LatLng(
@@ -223,12 +233,38 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             if (list != null) {
                 chargeStationList.addAll(list)
                 Log.d(TAG, "updateMarkers: ${chargeStationList}")
+                if(chargeStationList.size != 0){
+                    Log.d(TAG, "updateMarkers: 쿠쿠쿠")
+                    chargeStationList = chargeStationList.distinct() as MutableList<ChargeStation>
+                }
+                Log.d(TAG, "updateMarkers: ${chargeStationList}")
                 chargeStationList.forEach {
 
-                    val sMarker = Marker()
-                    sMarker.position = LatLng(it.lat.toDouble(), it.longi.toDouble())
-                    sMarker.map = naverMap
-                    sMarker.icon = OverlayImage.fromResource(R.drawable.ev_marker)
+                    val sMarker = Marker().apply{
+                        position = LatLng(it.lat.toDouble(), it.longi.toDouble())
+                        map = naverMap
+                        icon = OverlayImage.fromResource(R.drawable.ev_marker)
+
+                        setOnClickListener{
+                            val elapsedRealtime = SystemClock.elapsedRealtime()
+                            if((elapsedRealtime - lastClickTime) < 1000){
+                                return@setOnClickListener true
+                            }
+                            lastClickTime = SystemClock.elapsedRealtime()
+
+                            chargeStationList.forEach{
+                                if(it.lat == position.latitude.toString() && it.longi == position.longitude.toString()){
+                                    mainViewModel.markerChargeStation = it
+                                    ChargeStationBottomFragment.newInstance().show(
+                                        parentFragmentManager, ChargeStationBottomFragment.TAG
+                                    )
+                                    return@forEach
+                                }
+                            }
+
+                            true
+                        }
+                    }
                     markerList.add(sMarker)
                 }
             }
