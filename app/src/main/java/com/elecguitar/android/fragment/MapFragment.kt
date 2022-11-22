@@ -5,6 +5,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -48,6 +49,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var cameraFocus: LatLng
     private var chargeStationList: MutableList<ChargeStation> = mutableListOf()
     private var regionList: MutableList<String> = mutableListOf()
+    private var lastClickTime: Long = 0
 
     private var markerList: MutableList<Marker> = mutableListOf()
 
@@ -123,13 +125,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 // 카메라 현재위치로 이동
-                val cameraUpdate = CameraUpdate.scrollTo(
-                    LatLng(
-                        currentLocation!!.latitude,
-                        currentLocation!!.longitude
+                if (currentLocation != null){
+                    val cameraUpdate = CameraUpdate.scrollTo(
+                        LatLng(
+                            currentLocation!!.latitude,
+                            currentLocation!!.longitude
+                        )
                     )
-                )
-                naverMap.moveCamera(cameraUpdate)
+                    naverMap.moveCamera(cameraUpdate)
+                }
+
 
                 // 카메라 포커스에 현위치 정보를 담음
                 cameraFocus = LatLng(
@@ -228,12 +233,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             if (list != null) {
                 chargeStationList.addAll(list)
                 Log.d(TAG, "updateMarkers: ${chargeStationList}")
+                if(chargeStationList.size != 0){
+                    Log.d(TAG, "updateMarkers: 쿠쿠쿠")
+                    chargeStationList = chargeStationList.distinct() as MutableList<ChargeStation>
+                }
+                Log.d(TAG, "updateMarkers: ${chargeStationList}")
                 chargeStationList.forEach {
                     val sMarker = Marker().apply{
                         position = LatLng(it.lat.toDouble(), it.longi.toDouble())
                         map = naverMap
                         icon = OverlayImage.fromResource(R.drawable.ev_marker)
-                        setOnClickListener {
+
+                        setOnClickListener{
+                            val elapsedRealtime = SystemClock.elapsedRealtime()
+                            if((elapsedRealtime - lastClickTime) < 1000){
+                                return@setOnClickListener true
+                            }
+                            lastClickTime = SystemClock.elapsedRealtime()
+
                             chargeStationList.forEach{
                                 if(it.lat == position.latitude.toString() && it.longi == position.longitude.toString()){
                                     mainViewModel.markerChargeStation = it
@@ -243,6 +260,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                     return@forEach
                                 }
                             }
+
                             true
                         }
                     }
