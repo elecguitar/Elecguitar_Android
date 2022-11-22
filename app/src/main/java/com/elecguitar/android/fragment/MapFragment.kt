@@ -47,6 +47,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationSource: FusedLocationSource
     private lateinit var cameraFocus: LatLng
+    private var currentLocation: Location? = null
     private var chargeStationList: MutableList<ChargeStation> = mutableListOf()
     private var regionList: MutableList<String> = mutableListOf()
     private var lastClickTime: Long = 0
@@ -103,46 +104,46 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         marker.map = naverMap
         marker.icon = OverlayImage.fromResource(R.drawable.focus_marker)
 
+        getCurrPosition()
         // 사용자 현재 위치 받아오기
-        var currentLocation: Location?
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                currentLocation = location
-                // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
-                // 파랑색 점, 현재 위치 표시
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            currentLocation = location
+            // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
+            // 파랑색 점, 현재 위치 표시
 
-                if (currentLocation != null) {
-                    naverMap.locationOverlay.run {
-                        isVisible = true
-                        position = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
-                    }
-
-                } else {
-                    naverMap.locationOverlay.run {
-                        isVisible = true
-                        position = LatLng(36.1093, 128.4166)
-                    }
+            if (currentLocation != null) {
+                naverMap.locationOverlay.run {
+                    isVisible = true
+                    position = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
                 }
 
-                // 카메라 현재위치로 이동
-                if (currentLocation != null){
-                    val cameraUpdate = CameraUpdate.scrollTo(
-                        LatLng(
-                            currentLocation!!.latitude,
-                            currentLocation!!.longitude
-                        )
-                    )
-                    naverMap.moveCamera(cameraUpdate)
+            } else {
+                naverMap.locationOverlay.run {
+                    isVisible = true
+                    position = LatLng(36.1093, 128.4166)
                 }
-
-
-                // 카메라 포커스에 현위치 정보를 담음
-                cameraFocus = LatLng(
-                    naverMap.cameraPosition.target.latitude,
-                    naverMap.cameraPosition.target.longitude
-                )
-                marker.position = cameraFocus
             }
+        }
+
+        // 카메라 현재위치로 이동
+        if (currentLocation != null){
+            val cameraUpdate = CameraUpdate.scrollTo(
+                LatLng(
+                    currentLocation!!.latitude,
+                    currentLocation!!.longitude
+                )
+            )
+            naverMap.moveCamera(cameraUpdate)
+        }
+
+
+        // 카메라 포커스에 현위치 정보를 담음
+        cameraFocus = LatLng(
+            naverMap.cameraPosition.target.latitude,
+            naverMap.cameraPosition.target.longitude
+        )
+        marker.position = cameraFocus
+
 
         val uiSetting = naverMap.uiSettings
 
@@ -166,6 +167,31 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    private fun getCurrPosition(){
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                currentLocation = location
+                // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
+                // 파랑색 점, 현재 위치 표시
+
+                if (currentLocation != null) {
+                    mainViewModel.currPositionLat = currentLocation!!.latitude
+                    mainViewModel.currPositionLng = currentLocation!!.longitude
+
+                    naverMap.locationOverlay.run {
+                        isVisible = true
+                        position = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
+                    }
+
+                } else {
+                    naverMap.locationOverlay.run {
+                        isVisible = true
+                        position = LatLng(36.1093, 128.4166)
+                    }
+                }
+            }
+    }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -184,33 +210,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             return
         }
     }
-
-
-//    private fun getAddress(lat: Double, lng: Double): String? {
-//        val geoCoder = Geocoder(requireContext(), Locale.KOREA)
-//        val address: ArrayList<Address>
-//        var addressResult: String? = null
-//        try {
-//            //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
-//            //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
-//            address = geoCoder.getFromLocation(lat, lng, 1) as ArrayList<Address>
-////            Log.d(TAG, "getAddress: ${address}")
-//            if (address.size > 0) {
-//                // 주소 받아오기
-//                val currentLocationAddress = address[0]
-//                if (currentLocationAddress.thoroughfare != null) {
-//                    currentLocationAddress.apply {
-//                        addressResult = "$thoroughfare"
-//                    }
-//                }
-//            }
-//
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//        return addressResult
-//    }
-
 
     inner class GetChargeStationByAddressCallback : RetrofitCallback<SearchResponse> {
 
@@ -232,19 +231,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         private fun updateMarkers(list: List<ChargeStation>) {
             if (list != null) {
                 chargeStationList.addAll(list)
-                Log.d(TAG, "updateMarkers: ${chargeStationList}")
-                if(chargeStationList.size != 0){
-                    Log.d(TAG, "updateMarkers: 쿠쿠쿠")
-                    chargeStationList = chargeStationList.distinct() as MutableList<ChargeStation>
+
+                if(chargeStationList.size != 0 && chargeStationList != null){
+                    chargeStationList = chargeStationList.distinct().toMutableList()
                 }
-                Log.d(TAG, "updateMarkers: ${chargeStationList}")
+
                 chargeStationList.forEach {
                     val sMarker = Marker().apply{
                         position = LatLng(it.lat.toDouble(), it.longi.toDouble())
                         map = naverMap
                         icon = OverlayImage.fromResource(R.drawable.ev_marker)
+                        captionText = it.cpId.toString() + it.csId.toString()
+                        isHideCollidedCaptions = true
 
                         setOnClickListener{
+                            getCurrPosition()
                             val elapsedRealtime = SystemClock.elapsedRealtime()
                             if((elapsedRealtime - lastClickTime) < 1000){
                                 return@setOnClickListener true
@@ -252,7 +253,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             lastClickTime = SystemClock.elapsedRealtime()
 
                             chargeStationList.forEach{
-                                if(it.lat == position.latitude.toString() && it.longi == position.longitude.toString()){
+                                Log.d(TAG, "updateMarkers: ${it}")
+                                Log.d(TAG, "updateMarkers: ${position}")
+                                if(captionText == it.cpId.toString() + it.csId.toString()){
                                     mainViewModel.markerChargeStation = it
                                     ChargeStationBottomFragment.newInstance().show(
                                         parentFragmentManager, ChargeStationBottomFragment.TAG
@@ -290,8 +293,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             markerList.forEach {
                 it.map = null
             }
-            markerList.clear()
-            chargeStationList.clear()
+
+            if(markerList.size != 0){
+                markerList.clear()
+            }
+
+            if(chargeStationList.size != 0){
+                chargeStationList.clear()
+            }
 
             regions.distinct().forEach{
 

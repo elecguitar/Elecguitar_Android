@@ -1,7 +1,12 @@
 package com.elecguitar.android.fragment
 
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.location.Address
+import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +16,27 @@ import com.elecguitar.android.R
 import com.elecguitar.android.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.elecguitar.android.databinding.FragmentChargeStationBottomBinding
+import com.elecguitar.android.response.ChargeStation
+import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
+private const val TAG = "ChargeStationBottomFrag_싸피"
 class ChargeStationBottomFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentChargeStationBottomBinding
     private val mainViewModel: MainViewModel by activityViewModels()
+    private var chargeStation: ChargeStation? = null
+    private var currLat: Double? = null
+    private var currLng: Double? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+
+        chargeStation = mainViewModel.markerChargeStation
+        currLat = mainViewModel.currPositionLat
+        currLng = mainViewModel.currPositionLng
     }
 
     override fun onCreateView(
@@ -33,7 +51,8 @@ class ChargeStationBottomFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val chargeStation = mainViewModel.markerChargeStation
+        initListener()
+
         binding.apply{
             tvCpid.text = "No. ${chargeStation!!.cpId}"
             tvCsAddress.text = chargeStation!!.addr
@@ -80,6 +99,56 @@ class ChargeStationBottomFragment : BottomSheetDialogFragment() {
             chipStatus.text = state
         }
 
+    }
+
+    private fun initListener(){
+        binding.apply {
+            btnCsFindRoad.setOnClickListener {
+                getAddress( currLat!!,currLng!!, "start")
+                var intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(
+                        "http://m.map.naver.com/route.nhn" +
+                                "?menu=route" +
+                                "&sname=${getAddress(currLat!!, currLng!!,"start")}" +
+                                "&sx=${currLng}" +
+                                "&sy=${currLat}" +
+                                "&ename=${getAddress(chargeStation!!.lat.toDouble(), chargeStation!!.longi.toDouble(), "end")}" +
+                                "&ex=${chargeStation!!.longi.toDouble()}" +
+                                "&ey=${chargeStation!!.lat.toDouble()}" +
+                                "&pathType=0" +
+                                "&showMap=true"
+                    )
+                )
+                startActivity(intent)
+            }
+            btnCsCancel.setOnClickListener {
+                dismiss()
+            }
+        }
+    }
+
+    private fun getAddress(lat: Double, lng: Double, sted: String): String? {
+        val geoCoder = Geocoder(requireContext(), Locale.KOREA)
+        val address: ArrayList<Address>
+        var addressResult: String = sted
+        try {
+            //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
+            //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
+            address = geoCoder.getFromLocation(lat, lng, 1) as ArrayList<Address>
+            Log.d(TAG, "getAddress: ${lat}, ${lng}")
+            Log.d(TAG, "getAddress: ${address}")
+            if (address.size > 0) {
+                // 주소 받아오기
+                val addr = address[0]
+                addressResult = "${addr.adminArea} ${addr.locality} ${addr.thoroughfare} ${addr.featureName}"
+                Log.d(TAG, "getAddress: ${addressResult}")
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return addressResult
     }
 
 
