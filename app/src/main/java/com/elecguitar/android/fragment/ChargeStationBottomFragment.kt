@@ -105,16 +105,15 @@ class ChargeStationBottomFragment : BottomSheetDialogFragment() {
     private fun initListener(){
         binding.apply {
             btnCsFindRoad.setOnClickListener {
-                getAddress( currLat!!,currLng!!, "start")
                 var intent = Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse(
                         "http://m.map.naver.com/route.nhn" +
                                 "?menu=route" +
-                                "&sname=${getAddress(currLat!!, currLng!!,"start")}" +
+                                "&sname=${getAddress(currLat!!, currLng!!,"현위치")}" +
                                 "&sx=${currLng}" +
                                 "&sy=${currLat}" +
-                                "&ename=${getAddress(chargeStation!!.lat.toDouble(), chargeStation!!.longi.toDouble(), "end")}" +
+                                "&ename=${getAddress(chargeStation!!.lat.toDouble(), chargeStation!!.longi.toDouble(), "목적지")}" +
                                 "&ex=${chargeStation!!.longi.toDouble()}" +
                                 "&ey=${chargeStation!!.lat.toDouble()}" +
                                 "&pathType=0" +
