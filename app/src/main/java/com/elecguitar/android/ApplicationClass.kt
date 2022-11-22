@@ -45,8 +45,8 @@ class ApplicationClass : Application() {
         }
 
         val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(5000, TimeUnit.MILLISECONDS)
-            .connectTimeout(5000, TimeUnit.MILLISECONDS)
+            .readTimeout(100000, TimeUnit.MILLISECONDS)
+            .connectTimeout(100000, TimeUnit.MILLISECONDS)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 

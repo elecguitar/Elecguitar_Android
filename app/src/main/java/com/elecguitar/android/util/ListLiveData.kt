@@ -1,8 +1,10 @@
 package com.elecguitar.android.util
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.elecguitar.android.dto.Car
 
+private const val TAG = "ListLiveData_싸피"
 class ListLiveData : MutableLiveData<MutableList<Car>>() {
     private val datas = mutableListOf<Car>()
 
@@ -13,6 +15,14 @@ class ListLiveData : MutableLiveData<MutableList<Car>>() {
     fun addAll(items: List<Car>) {
         datas.addAll(items)
         value = datas
+    }
+
+    fun replace(items: List<Car>) {
+        val temp = value!!.toMutableList()
+        items.forEach { item ->
+            temp.add(item)
+        }
+        value = temp
     }
 
     fun sortByPriceAsc() {
