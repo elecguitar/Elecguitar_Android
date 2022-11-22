@@ -126,9 +126,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         marker.position = cameraFocus
 
-        val uiSetting = naverMap.uiSettings
-
-        uiSetting.isLocationButtonEnabled = true
+        binding.btnLocation.map = naverMap
 
         locationSource = FusedLocationSource(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE)
 
