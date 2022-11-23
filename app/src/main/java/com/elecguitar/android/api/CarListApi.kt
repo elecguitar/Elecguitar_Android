@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface CarListApi {
 
-    @GET("car")
+    @GET("carapi/car")
     fun getAllCarList(): Call<List<Car>>
 
     @GET("car/price-elecmileage")

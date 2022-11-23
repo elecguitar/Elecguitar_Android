@@ -22,7 +22,7 @@ class ApplicationClass : Application() {
         const val CHARGE_STATION_SERVICE_KEY = "fCAhTCQHRXevvOPci8dslVMalLrDtqce0l1VsrjGngDbLmDuHK5yJ1p9QAxFz92myDShnfidUhtf9XpvGcJozQ%3D%3D"
         const val NAVER_CLIENT_ID = "v6th2fex1s"
         const val NAVER_CLIENT_SECRET = "I7H6dfDPzUpiTnLsglLBx0b91ckD5FZNsgBbL5iv"
-        const val SERVER_URL = "http://${IP}:8080/carapi/"
+        const val SERVER_URL = "http://${IP}:8080/"
         const val EV_SERVER_URL = "http://api.odcloud.kr/api/EvInfoServiceV2/v1/"
         const val GEOCODER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/"
 

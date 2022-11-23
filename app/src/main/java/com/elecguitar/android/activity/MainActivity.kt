@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.elecguitar.android.R
 import com.elecguitar.android.databinding.ActivityMainBinding
+import com.elecguitar.android.fragment.ArticleDetailFragment
 import com.elecguitar.android.fragment.BenefitFragment
 import com.elecguitar.android.fragment.HomeFragment
 import com.elecguitar.android.fragment.MapFragment
@@ -67,9 +68,8 @@ class MainActivity : AppCompatActivity() {
 //            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment())
 //                .addToBackStack(null)
             // TODO : 뉴스 상세 넣기
-            2 -> {
-
-            }
+            2 -> transaction.replace(R.id.frameLayout, ArticleDetailFragment())
+                .addToBackStack(null)
         }
         transaction.commit()
     }
