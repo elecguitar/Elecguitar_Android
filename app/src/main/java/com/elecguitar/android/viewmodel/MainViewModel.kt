@@ -11,7 +11,6 @@ import com.naver.maps.geometry.LatLng
 class MainViewModel: ViewModel() {
     var carList = ListLiveData()
     var articleList = ArticleListLiveData()
-    var articleDetailList = mutableListOf<ArticleResponse>()
     var markerChargeStation: ChargeStation? = null
     var articleDetail: ArticleResponse? = null
     

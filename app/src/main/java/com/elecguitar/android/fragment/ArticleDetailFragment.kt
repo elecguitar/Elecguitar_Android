@@ -26,6 +26,7 @@ class ArticleDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mainActivity.hideBottomNav(true)
     }
 
     override fun onCreateView(
@@ -40,7 +41,6 @@ class ArticleDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initUi()
-
     }
 
     private fun initUi(){
