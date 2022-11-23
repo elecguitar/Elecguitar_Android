@@ -74,6 +74,13 @@ dependencies {
     // https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
+    // Beacon 사용위한 Dependency 추가
+    // https://mvnrepository.com/artifact/org.altbeacon/android-beacon-library
+    implementation group: 'org.altbeacon', name: 'android-beacon-library', version: '2.19'
+
+    // lottie
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'

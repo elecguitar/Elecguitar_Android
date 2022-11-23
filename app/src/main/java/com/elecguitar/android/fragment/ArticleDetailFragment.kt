@@ -14,7 +14,6 @@ import com.elecguitar.android.databinding.FragmentArticleDetailBinding
 import com.elecguitar.android.viewmodel.MainViewModel
 import java.util.*
 
-
 private const val TAG = "ArticleDetailFragment"
 class ArticleDetailFragment : Fragment() {
     private lateinit var binding: FragmentArticleDetailBinding
@@ -48,7 +47,6 @@ class ArticleDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
-
     }
 
     override fun onStop() {

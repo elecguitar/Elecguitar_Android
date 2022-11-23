@@ -25,14 +25,6 @@ class ArticleRecyclerViewAdapter(
 
     lateinit var onItemClickListener : OnItemClickListener
 
-    private val scale = context.resources.displayMetrics.density
-    val layoutParams = ConstraintLayout.LayoutParams(
-        ConstraintLayout.LayoutParams.MATCH_PARENT,
-        ConstraintLayout.LayoutParams.WRAP_CONTENT
-    ).apply {
-        setMargins(convertDpToPixels(4),convertDpToPixels(100),convertDpToPixels(4),convertDpToPixels(100))
-    }
-
     inner class ArticleViewHolder(val binding: RecyclerArticleItemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun onBind(article: ArticleResponse, position: Int){
@@ -42,7 +34,6 @@ class ArticleRecyclerViewAdapter(
                     .load(article.img)
                     .into(imgArticle)
                 tvArticleWriter.text = article.writer
-
             }
         }
     }
@@ -61,8 +52,4 @@ class ArticleRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = articleList.size
-
-    private fun convertDpToPixels(dp: Int): Int{
-        return (dp * scale + 0.5f).toInt()
-    }
 }

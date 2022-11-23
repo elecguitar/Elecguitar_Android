@@ -25,4 +25,7 @@ class MainViewModel: ViewModel() {
     var currPositionLat: Double? = null
     var currPositionLng: Double? = null
     var tts: TextToSpeech? = null
+
+
+    var isDialogShow = false
 }
