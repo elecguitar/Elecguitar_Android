@@ -8,14 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.elecguitar.android.activity.MainActivity
 import com.elecguitar.android.adapter.CarAdapter
 import com.elecguitar.android.databinding.FragmentHomeBinding
 import com.elecguitar.android.dto.Car
 import com.elecguitar.android.service.CarListService
-import com.elecguitar.android.util.ListLiveData
 import com.elecguitar.android.util.RetrofitCallback
 import com.elecguitar.android.viewmodel.MainViewModel
 
@@ -73,7 +71,9 @@ class HomeFragment : Fragment() {
 
                 carAdapter.onItemClickListener = object : CarAdapter.OnItemClickListener {
                     override fun onClick(view: View, position: Int) {
-                        // TODO : 상세 화면으로 이동
+                        var carId = mainViewModel.carList.getItem(position).carId
+                        mainActivity.openFragment(1, "carId", carId)
+                        Log.d(TAG, "onClick: ${carId}")
                     }
                 }
             }

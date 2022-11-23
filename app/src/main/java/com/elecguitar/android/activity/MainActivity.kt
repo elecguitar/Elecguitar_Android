@@ -6,6 +6,7 @@ import android.view.View
 import com.elecguitar.android.R
 import com.elecguitar.android.databinding.ActivityMainBinding
 import com.elecguitar.android.fragment.BenefitFragment
+import com.elecguitar.android.fragment.CarDetailFragment
 import com.elecguitar.android.fragment.HomeFragment
 import com.elecguitar.android.fragment.MapFragment
 
@@ -64,8 +65,8 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         when(index){
             // 차 상세 정보
-//            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment())
-//                .addToBackStack(null)
+            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment())
+                .addToBackStack(null)
             // TODO : 뉴스 상세 넣기
             2 -> {
 
@@ -75,7 +76,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun hideBottomNav(state : Boolean){
-        if(state) binding.bottomNavigationView.visibility =  View.GONE
-        else binding.bottomNavigationView.visibility = View.VISIBLE
+        binding.apply {
+            if(state) {
+                bottomAppBar.visibility =  View.GONE
+                fab.visibility = View.GONE
+            } else {
+                bottomAppBar.visibility =  View.VISIBLE
+                fab.visibility = View.VISIBLE
+            }
+        }
     }
 }

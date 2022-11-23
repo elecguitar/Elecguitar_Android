@@ -56,4 +56,8 @@ class ListLiveData : MutableLiveData<MutableList<Car>>() {
             it.elecMileage > 0
         }.toMutableList()
     }
+
+    fun getItem(position: Int): Car {
+        return datas[position]
+    }
 }
