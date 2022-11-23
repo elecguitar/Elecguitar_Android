@@ -21,7 +21,6 @@ import com.elecguitar.android.databinding.FragmentBenefitBinding
 import com.elecguitar.android.dto.Car
 import com.elecguitar.android.response.ArticleResponse
 import com.elecguitar.android.service.ArticleListService
-import com.elecguitar.android.service.CarListService
 import com.elecguitar.android.util.RetrofitCallback
 import com.elecguitar.android.viewmodel.MainViewModel
 
@@ -79,6 +78,11 @@ class BenefitFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        mainActivity.hideBottomNav(false)
+    }
+
     override fun onResume() {
         super.onResume()
         sliderImageHandler.postDelayed(sliderImageRunnable, 5000)
@@ -92,6 +96,7 @@ class BenefitFragment : Fragment() {
     inner class GetAllArticleCallback: RetrofitCallback<List<ArticleResponse>> {
         override fun onSuccess(code: Int, responseData: List<ArticleResponse>) {
             responseData.let {
+                mainViewModel.articleList.value!!.clear()
                 mainViewModel.articleList.addAll(responseData)
                 articleAdapter = ArticleRecyclerViewAdapter(mainActivity, mainViewModel.articleList.value!!)
 
@@ -103,11 +108,9 @@ class BenefitFragment : Fragment() {
 
                 articleAdapter.onItemClickListener = object : ArticleRecyclerViewAdapter.OnItemClickListener {
                     override fun onClick(view: View, article: ArticleResponse) {
+                        mainActivity.hideBottomNav(true)
                         mainViewModel.articleDetail = article
-                        mainActivity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.viewpager,ArticleDetailFragment())
-                            .commit()
+                        mainActivity.openFragment(2,"",0)
                     }
                 }
             }

@@ -2,11 +2,13 @@ package com.elecguitar.android.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.viewpager2.widget.ViewPager2
+import android.view.View
 import com.elecguitar.android.R
-import com.elecguitar.android.adapter.ViewPagerAdapter
 import com.elecguitar.android.databinding.ActivityMainBinding
+import com.elecguitar.android.fragment.ArticleDetailFragment
+import com.elecguitar.android.fragment.BenefitFragment
+import com.elecguitar.android.fragment.HomeFragment
+import com.elecguitar.android.fragment.MapFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,47 +19,63 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.viewpager.apply {
-            adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-            registerOnPageChangeCallback(PageChangeCallback())
-            isUserInputEnabled = false
-            currentItem = 1
-        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, HomeFragment())
+            .commit()
 
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            navigationSelected(it)
-        }
+        binding.apply {
+            bottomNavigationView.apply {
+                setOnNavigationItemSelectedListener { item ->
+                    when(item.itemId){
+                        R.id.mapFragment -> {
+                            supportFragmentManager.beginTransaction()
+                                .replace(R.id.frameLayout, MapFragment())
+                                .commit()
+                            true
+                        }
+                        R.id.benefitFragment -> {
+                            supportFragmentManager.beginTransaction()
+                                .replace(R.id.frameLayout, BenefitFragment())
+                                .commit()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
 
-        binding.fab.setOnClickListener {
-            binding.viewpager.currentItem = 1
+            fab.setOnClickListener {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, HomeFragment())
+                    .commit()
+            }
         }
     }
 
-    private fun navigationSelected(item: MenuItem): Boolean {
-        val checked = item.setChecked(true)
-
-        when (checked.itemId) {
-            R.id.mapFragment -> {
-                binding.viewpager.currentItem = 0
-                return true
-            }
-            R.id.benefitFragment -> {
-                binding.viewpager.currentItem = 2
-                return true
-            }
-        }
-        return false
+    override fun onRestart() {
+        super.onRestart()
+        this.hideBottomNav(false)
     }
 
-    private inner class PageChangeCallback: ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            binding.bottomNavigationView.selectedItemId = when (position) {
-                0 -> R.id.mapFragment
-                1 -> R.id.homeFragment
-                2 -> R.id.benefitFragment
-                else -> error("no such position: $position")
-            }
+    fun openFragment(index:Int, key:String, value:Int){
+        moveFragment(index, key, value)
+    }
+
+    private fun moveFragment(index:Int, key:String, value:Int){
+        val transaction = supportFragmentManager.beginTransaction()
+        when(index){
+            // 차 상세 정보
+//            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment())
+//                .addToBackStack(null)
+            // TODO : 뉴스 상세 넣기
+            2 -> transaction.replace(R.id.frameLayout, ArticleDetailFragment())
+                .addToBackStack(null)
         }
+        transaction.commit()
+    }
+
+    fun hideBottomNav(state : Boolean){
+        if(state) binding.bottomNavigationView.visibility =  View.GONE
+        else binding.bottomNavigationView.visibility = View.VISIBLE
     }
 }

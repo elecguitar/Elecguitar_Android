@@ -1,5 +1,6 @@
 package com.elecguitar.android.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,15 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.elecguitar.android.R
+import com.elecguitar.android.activity.MainActivity
 import com.elecguitar.android.databinding.FragmentArticleDetailBinding
-import com.elecguitar.android.databinding.FragmentChargeStationBottomBinding
 import com.elecguitar.android.viewmodel.MainViewModel
 
 
 class ArticleDetailFragment : Fragment() {
     private lateinit var binding: FragmentArticleDetailBinding
+    private lateinit var mainActivity: MainActivity
     private val mainViewModel: MainViewModel by activityViewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
