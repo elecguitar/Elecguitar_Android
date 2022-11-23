@@ -15,10 +15,12 @@
         android:text="No. 00001"
         android:textColor="@color/elecguitar_g1"
         android:textSize="16sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/layout_info"
+        app:layout_constraintTop_toBottomOf="@+id/img_charge_station"
+        />
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip_status"
@@ -40,13 +42,14 @@
         android:src="@drawable/charge_station"
         app:layout_constraintEnd_toStartOf="@+id/layout_info"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cpid" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_update" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_info"
         android:layout_width="200dp"
         android:layout_height="180dp"
         android:orientation="vertical"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_charge_station"
@@ -75,9 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/nanum_square_round_bold"
+                android:gravity="center"
                 android:text="급속"
                 android:textColor="@color/elecguitar_black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,9 +107,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/nanum_square_round_bold"
+                android:gravity="center"
                 android:text="DC콤보"
                 android:textColor="@color/elecguitar_black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -173,21 +178,21 @@
         android:id="@+id/layout_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/layout_info"
-        app:layout_constraintTop_toBottomOf="@+id/img_charge_station">
+        app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
             android:id="@+id/text_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recent Updates: "
+            android:text="Updates: "
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_update"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_update"

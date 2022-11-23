@@ -13,6 +13,7 @@ class ListLiveData : MutableLiveData<MutableList<Car>>() {
     }
 
     fun addAll(items: List<Car>) {
+        datas.clear()
         datas.addAll(items)
         value = datas
     }

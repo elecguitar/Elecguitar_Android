@@ -110,10 +110,10 @@ class ChargeStationBottomFragment : BottomSheetDialogFragment() {
                     Uri.parse(
                         "http://m.map.naver.com/route.nhn" +
                                 "?menu=route" +
-                                "&sname=${getAddress(currLat!!, currLng!!,"현위치")}" +
+                                "&sname=현위치${getAddress(currLat!!, currLng!!,"")}" +
                                 "&sx=${currLng}" +
                                 "&sy=${currLat}" +
-                                "&ename=${getAddress(chargeStation!!.lat.toDouble(), chargeStation!!.longi.toDouble(), "목적지")}" +
+                                "&ename=목적지${getAddress(chargeStation!!.lat.toDouble(), chargeStation!!.longi.toDouble(), "")}" +
                                 "&ex=${chargeStation!!.longi.toDouble()}" +
                                 "&ey=${chargeStation!!.lat.toDouble()}" +
                                 "&pathType=0" +
@@ -141,7 +141,7 @@ class ChargeStationBottomFragment : BottomSheetDialogFragment() {
             if (address.size > 0) {
                 // 주소 받아오기
                 val addr = address[0]
-                addressResult = "${addr.adminArea} ${addr.locality} ${addr.thoroughfare} ${addr.featureName}"
+                addressResult = ": ${addr.adminArea} ${addr.locality} ${addr.thoroughfare} ${addr.featureName}"
                 Log.d(TAG, "getAddress: ${addressResult}")
             }
 

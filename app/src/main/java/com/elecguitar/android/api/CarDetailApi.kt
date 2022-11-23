@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface CarDetailApi {
 
-    @GET("car/{id}")
+    @GET("carapi/car/{id}")
     fun getCarById(@Path("id") id: Int): Call<CarDetail>
 
 }

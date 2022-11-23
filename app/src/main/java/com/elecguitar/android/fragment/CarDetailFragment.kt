@@ -52,9 +52,13 @@ class CarDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d(TAG, "onViewCreated: ${carId}")
         CarDetailService().getCarById(carId, GetCarByIdCallback())
+
+        binding.apply {
+            ivBack.setOnClickListener {
+
+            }
+        }
     }
 
     inner class GetCarByIdCallback: RetrofitCallback<CarDetail> {

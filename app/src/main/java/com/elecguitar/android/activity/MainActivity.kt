@@ -7,6 +7,7 @@ import com.elecguitar.android.R
 import com.elecguitar.android.databinding.ActivityMainBinding
 import com.elecguitar.android.fragment.BenefitFragment
 import com.elecguitar.android.fragment.CarDetailFragment
+import com.elecguitar.android.fragment.ArticleDetailFragment
 import com.elecguitar.android.fragment.HomeFragment
 import com.elecguitar.android.fragment.MapFragment
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         when(index){
             // 차 상세 정보
-            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment())
+            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment.newInstance(key, value))
                 .addToBackStack(null)
             // TODO : 뉴스 상세 넣기
             2 -> {

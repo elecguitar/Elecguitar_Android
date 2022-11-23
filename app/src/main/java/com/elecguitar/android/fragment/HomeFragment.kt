@@ -58,6 +58,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        mainActivity.hideBottomNav(false)
+    }
+
     inner class GetAllCarCallback: RetrofitCallback<List<Car>> {
         override fun onSuccess(code: Int, responseData: List<Car>) {
             responseData.let {

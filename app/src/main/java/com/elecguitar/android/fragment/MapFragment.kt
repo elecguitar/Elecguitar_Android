@@ -235,8 +235,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             lastClickTime = SystemClock.elapsedRealtime()
 
                             chargeStationList.forEach{
-                                Log.d(TAG, "updateMarkers: ${it}")
-                                Log.d(TAG, "updateMarkers: ${position}")
                                 if(captionText == it.cpId.toString() + it.csId.toString()){
                                     mainViewModel.markerChargeStation = it
                                     ChargeStationBottomFragment.newInstance().show(
@@ -267,6 +265,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             resultList.forEach{
                 regions.add("${it.region.area1.name} ${it.region.area2.name} ${it.region.area3.name} ${it.region.area4.name}")
+                Log.d(TAG, "onSuccess1: ${it.region.area1.name} ${it.region.area2.name} ${it.region.area3.name} ${it.region.area4.name}")
+            }
+            if(resultList.size > 3){
+                resultList[3].let{
+                    if(it.land.name != "" && it.land.name != null){
+                        regions.add("${it.region.area1.name} ${it.region.area2.name} ${it.land.name}")
+                        Log.d(TAG, "onSuccess2: ${it.region.area1.name} ${it.region.area2.name} ${it.land.name}")
+                    }
+                }
             }
 
             if(regionList.size != 0){
@@ -285,7 +292,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             regions.distinct().forEach{
-
                 if (it != null) {
                     ChargeStationService().getChargeStationByAddress(
                         it,
