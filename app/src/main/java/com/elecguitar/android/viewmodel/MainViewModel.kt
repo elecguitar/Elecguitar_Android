@@ -24,4 +24,6 @@ class MainViewModel: ViewModel() {
 
     var currPositionLat: Double? = null
     var currPositionLng: Double? = null
+
+    var isDialogShow = false
 }
