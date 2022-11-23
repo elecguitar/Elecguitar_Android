@@ -5,42 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:orientation="vertical"
         tools:context=".fragment.CarDetailFragment">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_left_arrow"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:menu="@menu/car_detail_menu" />
+        </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
             android:fontFamily="@font/nanum_square_round_regular"
             android:textColor="@color/white"
             android:textSize="10sp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            app:chipCornerRadius="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_back" />
+            app:chipCornerRadius="5dp" />
 
         <ImageView
             android:id="@+id/iv_car"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/car_tmp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chip" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/car_tmp" />
 
         <ImageView
             android:id="@+id/iv_company"
@@ -48,79 +51,65 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:src="@drawable/c1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_car" />
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/nanum_square_round_bold"
             android:text="현대 아이오닉 6 (1세대)"
             android:textColor="@color/elecguitar_black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_company" />
+            android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/tv_manufacture_date"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="2023"
-            android:fontFamily="@font/nanum_square_round_bold"
-            android:textSize="18sp"
-            android:textColor="@color/elecguitar_g1"
-            app:layout_constraintEnd_toStartOf="@+id/tv_manufacture_date_unit"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+            android:gravity="center_vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/tv_manufacture_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2023"
+                android:fontFamily="@font/nanum_square_round_bold"
+                android:textSize="18sp"
+                android:textColor="@color/elecguitar_g1" />
 
-        <TextView
-            android:id="@+id/tv_manufacture_date_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="년형"
-            android:fontFamily="@font/nanum_square_round_bold"
-            android:textSize="18sp"
-            android:textColor="@color/elecguitar_g1"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_manufacture_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tv_manufacture_date"
-            app:layout_constraintTop_toTopOf="@+id/tv_manufacture_date" />
+            <TextView
+                android:id="@+id/tv_manufacture_date_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="년형"
+                android:fontFamily="@font/nanum_square_round_bold"
+                android:textSize="18sp"
+                android:textColor="@color/elecguitar_g1" />
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginHorizontal="8dp"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_manufacture_date">
+            android:layout_margin="16dp"
+            app:cardCornerRadius="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="20dp"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/linear_detail_title"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/linear_detail_value"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -218,10 +207,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/linear_detail_title"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:orientation="vertical">
 
                     <TextView
@@ -317,6 +302,5 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

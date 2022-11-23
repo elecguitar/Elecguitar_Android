@@ -72,6 +72,8 @@ class MainActivity : AppCompatActivity() {
             2 -> {
 
             }
+            4 -> transaction.replace(R.id.frameLayout, HomeFragment())
+                .addToBackStack(null)
         }
         transaction.commit()
     }

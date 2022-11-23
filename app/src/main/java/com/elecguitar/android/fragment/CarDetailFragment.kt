@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -52,13 +50,35 @@ class CarDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CarDetailService().getCarById(carId, GetCarByIdCallback())
 
         binding.apply {
-            ivBack.setOnClickListener {
-
+            (requireContext() as MainActivity).apply{
+                setSupportActionBar(toolbar)
+                supportActionBar!!.setDisplayShowCustomEnabled(true)
+                supportActionBar!!.setDisplayShowTitleEnabled(false)
+                supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_left_arrow)
+                setHasOptionsMenu(true)
             }
         }
+
+        CarDetailService().getCarById(carId, GetCarByIdCallback())
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.car_detail_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            android.R.id.home -> {
+                Log.d(TAG, "onOptionsItemSelected: ")
+                mainActivity.openFragment(4, "", 0)
+                true
+            }
+            else -> false
+        }
+
     }
 
     inner class GetCarByIdCallback: RetrofitCallback<CarDetail> {

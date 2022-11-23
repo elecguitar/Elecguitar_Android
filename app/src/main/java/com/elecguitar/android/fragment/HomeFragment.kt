@@ -2,13 +2,13 @@ package com.elecguitar.android.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.elecguitar.android.R
 import com.elecguitar.android.activity.MainActivity
 import com.elecguitar.android.adapter.CarAdapter
 import com.elecguitar.android.databinding.FragmentHomeBinding
@@ -23,6 +23,8 @@ class HomeFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private lateinit var binding: FragmentHomeBinding
     private val mainViewModel: MainViewModel by activityViewModels()
+    private var filterLastClickTime: Long = 0
+    private var sortLastClickTime: Long = 0
 
     private lateinit var carAdapter: CarAdapter
 
@@ -43,18 +45,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CarListService().getAllCarList(GetAllCarCallback())
-
-        binding.ivSort.setOnClickListener {
-            SortBottomFragment.newInstance().show(
-                parentFragmentManager, SortBottomFragment.TAG
-            )
+        binding.apply {
+            (requireContext() as MainActivity).apply {
+                setSupportActionBar(toolbar)
+                supportActionBar!!.setDisplayShowCustomEnabled(true)
+                supportActionBar!!.setDisplayShowTitleEnabled(false)
+                supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_left_arrow)
+                setHasOptionsMenu(true)
         }
 
-        binding.ivFilter.setOnClickListener {
-            FilterBottomFragment.newInstance().show(
-                parentFragmentManager, FilterBottomFragment.TAG
-            )
+        CarListService().getAllCarList(GetAllCarCallback())
         }
     }
 
@@ -97,5 +98,36 @@ class HomeFragment : Fragment() {
         override fun onFailure(code: Int) {
             Log.d(TAG, "onResponse: Error Code $code")
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.car_list_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return  when(item.itemId){
+            R.id.filter -> {
+                val elapsedRealtime = SystemClock.elapsedRealtime()
+                if((elapsedRealtime - filterLastClickTime) > 1000){
+                    FilterBottomFragment.newInstance().show(
+                        parentFragmentManager, FilterBottomFragment.TAG
+                    )
+                }
+                filterLastClickTime = SystemClock.elapsedRealtime()
+                true
+            }
+            R.id.sort -> {
+                val elapsedRealtime = SystemClock.elapsedRealtime()
+                if((elapsedRealtime - sortLastClickTime) > 1000){
+                    SortBottomFragment.newInstance().show(
+                        parentFragmentManager, SortBottomFragment.TAG
+                    )
+                }
+                sortLastClickTime = SystemClock.elapsedRealtime()
+                true
+            }
+            else -> false
+        }
+
     }
 }
