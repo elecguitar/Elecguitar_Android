@@ -102,8 +102,12 @@ class BenefitFragment : Fragment() {
                 }
 
                 articleAdapter.onItemClickListener = object : ArticleRecyclerViewAdapter.OnItemClickListener {
-                    override fun onClick(view: View, position: Int) {
-                        // TODO : 상세 화면으로 이동
+                    override fun onClick(view: View, article: ArticleResponse) {
+                        mainViewModel.articleDetail = article
+                        mainActivity.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.viewpager,ArticleDetailFragment())
+                            .commit()
                     }
                 }
             }

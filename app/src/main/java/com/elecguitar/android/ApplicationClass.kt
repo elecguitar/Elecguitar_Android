@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit
 class ApplicationClass : Application() {
     companion object{
 //         유호 ip - 집
-         private const val IP = "192.168.0.2"
+//         private const val IP = "192.168.0.2"
         // 유호 ip - 싸피
-//         private const val IP = "192.168.33.117"
+         private const val IP = "192.168.33.117"
         // 민하 ip - 싸피
 //         private const val IP = "192.168.33.116"
 
