@@ -13,7 +13,7 @@ class ApplicationClass : Application() {
 //         유호 ip - 집
 //         private const val IP = "192.168.0.2"
         // 유호 ip - 싸피
-         private const val IP = "192.168.33.117"
+//         private const val IP = "192.168.33.117"
         // 민하 ip - 집
 //        private const val IP = "192.168.0.4"
         // 민하 ip - 싸피

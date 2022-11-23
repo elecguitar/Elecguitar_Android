@@ -1,5 +1,6 @@
 package com.elecguitar.android.viewmodel
 
+import android.speech.tts.TextToSpeech
 import androidx.lifecycle.ViewModel
 import com.elecguitar.android.dto.Car
 import com.elecguitar.android.response.ArticleResponse
@@ -23,4 +24,5 @@ class MainViewModel: ViewModel() {
 
     var currPositionLat: Double? = null
     var currPositionLng: Double? = null
+    var tts: TextToSpeech? = null
 }

@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity() {
             // TODO : 뉴스 상세 넣기
             2 -> transaction.replace(R.id.frameLayout, ArticleDetailFragment())
                 .addToBackStack(null)
+            3-> transaction.replace(R.id.frameLayout, BenefitFragment())
+                .addToBackStack(null)
         }
         transaction.commit()
     }
