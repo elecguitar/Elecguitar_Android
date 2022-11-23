@@ -124,13 +124,22 @@ class MainActivity : AppCompatActivity() {
             // TODO : 뉴스 상세 넣기
             2 -> transaction.replace(R.id.frameLayout, ArticleDetailFragment())
                 .addToBackStack(null)
+            3-> transaction.replace(R.id.frameLayout, BenefitFragment())
+                .addToBackStack(null)
         }
         transaction.commit()
     }
 
     fun hideBottomNav(state : Boolean){
-        if(state) binding.bottomNavigationView.visibility =  View.GONE
-        else binding.bottomNavigationView.visibility = View.VISIBLE
+        binding.apply {
+            if(state) {
+                bottomAppBar.visibility =  View.GONE
+                fab.visibility = View.GONE
+            } else {
+                bottomAppBar.visibility =  View.VISIBLE
+                fab.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setBeacon(){

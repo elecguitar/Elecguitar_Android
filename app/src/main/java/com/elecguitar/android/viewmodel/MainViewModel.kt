@@ -1,5 +1,6 @@
 package com.elecguitar.android.viewmodel
 
+import android.speech.tts.TextToSpeech
 import androidx.lifecycle.ViewModel
 import com.elecguitar.android.dto.Car
 import com.elecguitar.android.response.ArticleResponse
@@ -11,7 +12,6 @@ import com.naver.maps.geometry.LatLng
 class MainViewModel: ViewModel() {
     var carList = ListLiveData()
     var articleList = ArticleListLiveData()
-    var articleDetailList = mutableListOf<ArticleResponse>()
     var markerChargeStation: ChargeStation? = null
     var articleDetail: ArticleResponse? = null
     
@@ -24,6 +24,8 @@ class MainViewModel: ViewModel() {
 
     var currPositionLat: Double? = null
     var currPositionLng: Double? = null
+    var tts: TextToSpeech? = null
+
 
     var isDialogShow = false
 }
