@@ -9,6 +9,7 @@
     <color name="elecguitar_g1">#BFBFBF</color>
     <color name="elecguitar_g2">#D9D9D9</color>
     <color name="elecguitar_g3">#F2F2F2</color>
+    <color name="elecguitar_transparent">#00000000</color>
 
     <color name="elecguitar_statusbar_color">#80000000</color> <!-- status bar 색상 -->
 

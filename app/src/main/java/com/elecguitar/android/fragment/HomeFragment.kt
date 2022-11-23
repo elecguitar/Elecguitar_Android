@@ -51,8 +51,12 @@ class HomeFragment : Fragment() {
             SortBottomFragment.newInstance().show(
                 parentFragmentManager, SortBottomFragment.TAG
             )
+        }
 
-
+        binding.ivFilter.setOnClickListener {
+            FilterBottomFragment.newInstance().show(
+                parentFragmentManager, FilterBottomFragment.TAG
+            )
         }
     }
 
@@ -89,6 +93,5 @@ class HomeFragment : Fragment() {
         override fun onFailure(code: Int) {
             Log.d(TAG, "onResponse: Error Code $code")
         }
-
     }
 }

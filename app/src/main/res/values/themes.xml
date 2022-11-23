@@ -30,4 +30,20 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
     </style>
+
+    <!-- chip 스타일 설정 -->
+    <style name="CustomChipChoice" parent="@style/Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:fontFamily">@font/nanum_square_round_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:checkable">true</item>
+        <item name="chipStartPadding">5dp</item>
+        <item name="chipEndPadding">5dp</item>
+        <item name="chipIconVisible">true</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="rippleColor">@color/elecguitar_transparent</item>
+    </style>
 </resources>
