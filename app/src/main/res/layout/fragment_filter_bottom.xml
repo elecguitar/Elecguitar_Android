@@ -244,7 +244,6 @@
         android:fontFamily="@font/nanum_square_round_regular"
         android:textSize="14sp"
         android:textColor="@color/elecguitar_black"
-        android:text="1,000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_price_min" />
 
@@ -280,7 +279,6 @@
         android:fontFamily="@font/nanum_square_round_regular"
         android:textSize="14sp"
         android:textColor="@color/elecguitar_black"
-        android:text="12,000"
         app:layout_constraintBottom_toBottomOf="@+id/tv_price_unit2"
         app:layout_constraintEnd_toStartOf="@+id/tv_price_unit2"
         app:layout_constraintTop_toTopOf="@+id/tv_price_unit2" />
@@ -347,7 +345,6 @@
         android:fontFamily="@font/nanum_square_round_regular"
         android:textSize="14sp"
         android:textColor="@color/elecguitar_black"
-        android:text="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_mileage_min" />
 
@@ -383,7 +380,6 @@
         android:fontFamily="@font/nanum_square_round_regular"
         android:textSize="14sp"
         android:textColor="@color/elecguitar_black"
-        android:text="10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_mileage_unit2"
         app:layout_constraintEnd_toStartOf="@+id/tv_mileage_unit2"
         app:layout_constraintTop_toTopOf="@+id/tv_mileage_unit2" />

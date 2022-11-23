@@ -18,7 +18,7 @@ class ListLiveData : MutableLiveData<MutableList<Car>>() {
     }
 
     fun replace(items: List<Car>) {
-        val temp = value!!.toMutableList()
+        val temp = mutableListOf<Car>()
         items.forEach { item ->
             temp.add(item)
         }

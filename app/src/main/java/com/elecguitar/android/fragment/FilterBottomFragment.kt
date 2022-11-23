@@ -23,7 +23,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.slider.RangeSlider
 
-
 class FilterBottomFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentFilterBottomBinding
@@ -51,27 +50,40 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
+
         binding.apply {
-            sliderPrice.apply {
-                valueFrom = 1000f
-                valueTo = 20000f
-                values = arrayListOf(1000f, 20000f)
-                stepSize = 1000f
-            }
-
-            sliderMileage.apply {
-                valueFrom = 2f
-                valueTo = 10f
-                values = arrayListOf(2f, 10f)
-                stepSize = 1f
-            }
-
             btnSearch.setOnClickListener {
                 filterItems()
             }
         }
 
         sliderMove()
+    }
+
+    private fun initView() {
+        binding.apply {
+//            chip11.isChecked = true
+
+            sliderPrice.apply {
+                valueFrom = 1000f
+                valueTo = 20000f
+                values = arrayListOf(mainViewModel.filterStartPrice.toFloat(), mainViewModel.filterEndPrice.toFloat())
+                stepSize = 1000f
+            }
+
+            sliderMileage.apply {
+                valueFrom = 2f
+                valueTo = 10f
+                values = arrayListOf(mainViewModel.filterStartElecMileage.toFloat(), mainViewModel.filterEndElecMileage.toFloat())
+                stepSize = 1f
+            }
+
+            tvPriceStart.text = CommonUtil().makeComma(mainViewModel.filterStartPrice)
+            tvPriceEnd.text = CommonUtil().makeComma(mainViewModel.filterEndPrice)
+            tvMileageStart.text = mainViewModel.filterStartElecMileage.toString()
+            tvMileageEnd.text = mainViewModel.filterEndElecMileage.toString()
+        }
     }
 
     private fun sliderMove() {
@@ -146,15 +158,16 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         override fun onSuccess(code: Int, responseData: List<Car>) {
             responseData.let {
                 mainViewModel.carList.replace(responseData)
+                dismiss()
             }
         }
 
         override fun onError(t: Throwable) {
-            Log.d(TAG, t.message ?: "차 정보 불러오는 중 통신오류")
+            Log.d("FilterBottomFragment_싸피", t.message ?: "차 정보 불러오는 중 통신오류")
         }
 
         override fun onFailure(code: Int) {
-            Log.d(TAG, "onResponse: Error Code $code")
+            Log.d("FilterBottomFragment_싸피", "onResponse: Error Code $code")
         }
 
     }
@@ -167,15 +180,16 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         override fun onSuccess(code: Int, responseData: List<Car>) {
             responseData.let {
                 mainViewModel.carList.replace(responseData)
+                dismiss()
             }
         }
 
         override fun onError(t: Throwable) {
-            Log.d(TAG, t.message ?: "차 정보 불러오는 중 통신오류")
+            Log.d("FilterBottomFragment_싸피", t.message ?: "차 정보 불러오는 중 통신오류")
         }
 
         override fun onFailure(code: Int) {
-            Log.d(TAG, "onResponse: Error Code $code")
+            Log.d("FilterBottomFragment_싸피", "onResponse: Error Code $code")
         }
     }
 
