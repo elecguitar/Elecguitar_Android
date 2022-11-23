@@ -73,7 +73,6 @@ class HomeFragment : Fragment() {
                     override fun onClick(view: View, position: Int) {
                         var carId = mainViewModel.carList.getItem(position).carId
                         mainActivity.openFragment(1, "carId", carId)
-                        Log.d(TAG, "onClick: ${carId}")
                     }
                 }
             }

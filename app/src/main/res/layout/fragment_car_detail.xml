@@ -114,6 +114,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_square_round_bold"
@@ -122,6 +123,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_mileage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -131,6 +133,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_battery_capacity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -140,6 +143,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_car_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -149,6 +153,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -158,6 +163,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_capacity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -167,6 +173,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_mortor_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -176,6 +183,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_mortor_toque"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -185,6 +193,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -194,6 +203,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tv_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
