@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.elecguitar.android.R
-import com.elecguitar.android.adapter.CarAdapter
 import com.elecguitar.android.databinding.FragmentFilterBottomBinding
 import com.elecguitar.android.dto.Car
 import com.elecguitar.android.service.CarListService
@@ -23,10 +21,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.slider.RangeSlider
 
+
 class FilterBottomFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentFilterBottomBinding
     private val mainViewModel: MainViewModel by activityViewModels()
+
+    private lateinit var v: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,7 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        v = inflater.inflate(R.layout.fragment_filter_bottom, container, false)
         binding = FragmentFilterBottomBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -63,7 +65,11 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
 
     private fun initView() {
         binding.apply {
-//            chip11.isChecked = true
+            mainViewModel.filterCompanyIdList.forEach { id ->
+                Log.d("FilterBottomFragment_싸피", "initView: ${id}")
+
+                view!!.findViewById<Chip>(id).isChecked = true
+            }
 
             sliderPrice.apply {
                 valueFrom = 1000f
@@ -125,8 +131,11 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         var startElecMileage = 2
         var endElecMileage = 10
 
+        mainViewModel.filterCompanyIdList.clear()
+
         binding.apply {
             chipGroup.checkedChipIds.forEach { id ->
+                mainViewModel.filterCompanyIdList.add(id)
                 filterCompany.add(chipGroup.findViewById<Chip>(id).text.toString())
             }
             startPrice = sliderPrice.values[0].toInt()

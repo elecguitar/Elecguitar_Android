@@ -67,7 +67,6 @@ class HomeFragment : Fragment() {
                 carAdapter = CarAdapter(mainActivity, mainViewModel.carList.value!!)
 
                 mainViewModel.carList.observe(viewLifecycleOwner) {
-                    Log.d(TAG, "onSuccess: 비꺘디!")
                     carAdapter.datas = it
                     carAdapter.notifyDataSetChanged()
                 }

@@ -8,7 +8,9 @@ import com.elecguitar.android.util.ListLiveData
 class MainViewModel: ViewModel() {
     var carList = ListLiveData()
     var markerChargeStation: ChargeStation? = null
+
     var filterCompanyList = mutableListOf<String>()
+    var filterCompanyIdList = mutableListOf<Int>()
     var filterStartPrice = 1000
     var filterEndPrice = 12000
     var filterStartElecMileage = 2
