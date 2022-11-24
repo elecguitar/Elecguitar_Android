@@ -14,7 +14,6 @@ class CarDetailService {
         RetrofitUtil.carDetailService.getCarById(carId).enqueue(object : Callback<CarDetail> {
             override fun onResponse(call: Call<CarDetail>, response: Response<CarDetail>) {
                 val res = response.body()
-                Log.d(TAG, "onResponse: ${res}")
                 if (response.code() == 200) {
                     if (res != null) {
                         callback.onSuccess(response.code(), res)

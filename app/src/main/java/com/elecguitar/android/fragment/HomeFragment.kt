@@ -44,18 +44,19 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
         binding.apply {
             (requireContext() as MainActivity).apply {
                 setSupportActionBar(toolbar)
-                supportActionBar!!.setDisplayShowCustomEnabled(true)
-                supportActionBar!!.setDisplayShowTitleEnabled(false)
-                supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-                supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_left_arrow)
                 setHasOptionsMenu(true)
+            }
         }
 
-        CarListService().getAllCarList(GetAllCarCallback())
+        if (isFirst) {
+            CarListService().getAllCarList(GetAllCarCallback())
+            isFirst = false
+        } else {
+            setAdapterIfNotFirstCall()
         }
     }
 
@@ -77,8 +78,8 @@ class HomeFragment : Fragment() {
 
                 carAdapter.onItemClickListener = object : CarAdapter.OnItemClickListener {
                     override fun onClick(view: View, position: Int) {
-                        var carId = mainViewModel.carList.getItem(position).carId
-                        mainActivity.openFragment(1, "carId", carId)
+                        var carId = mainViewModel.carList.value as MutableList<Car>
+                        mainActivity.openFragment(1, "carId", carId[position].carId)
                     }
                 }
             }
@@ -97,6 +98,26 @@ class HomeFragment : Fragment() {
 
         override fun onFailure(code: Int) {
             Log.d(TAG, "onResponse: Error Code $code")
+        }
+    }
+
+    private fun setAdapterIfNotFirstCall() {
+        carAdapter = CarAdapter(mainActivity, mainViewModel.carList.value!!)
+        binding.recyclerview.apply {
+            layoutManager = GridLayoutManager(mainActivity, 2)
+            adapter = carAdapter
+        }
+
+        mainViewModel.carList.observe(viewLifecycleOwner) {
+            carAdapter.datas = it
+            carAdapter.notifyDataSetChanged()
+        }
+
+        carAdapter.onItemClickListener = object : CarAdapter.OnItemClickListener {
+            override fun onClick(view: View, position: Int) {
+                var carId = mainViewModel.carList.value as MutableList<Car>
+                mainActivity.openFragment(1, "carId", carId[position].carId)
+            }
         }
     }
 
@@ -129,5 +150,9 @@ class HomeFragment : Fragment() {
             else -> false
         }
 
+    }
+
+    companion object {
+        var isFirst = true
     }
 }
