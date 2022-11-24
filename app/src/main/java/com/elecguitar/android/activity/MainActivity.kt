@@ -27,7 +27,7 @@ private const val TAG = "MainActivity_싸피"
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val PERMISSION_REQUEST_CODE = 8
+        const val PERMISSION_REQUEST_CODE = 8
         private const val BEACON_UUID = "fda50693-a4e2-4fb1-afcf-c6eb07647825"
         private const val BEACON_MAJOR = "10004"
         private const val BEACON_MINOR = "54480"
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private var bluetoothAdapter: BluetoothAdapter? = null
 
-    private val runtimePermissions = arrayOf(
+    val runtimePermissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.BLUETOOTH_SCAN,
@@ -204,9 +204,6 @@ class MainActivity : AppCompatActivity() {
                         }
                         Log.d( TAG,"distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3)
                     }
-                }
-                if (isEmpty()) {
-                    Log.d(TAG, "didRangeBeaconsInRegion: 비컨을 찾을 수 없습니다.")
                 }
             }
         }
