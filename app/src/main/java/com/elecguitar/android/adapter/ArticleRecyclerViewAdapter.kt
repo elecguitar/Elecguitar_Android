@@ -24,6 +24,7 @@ class ArticleRecyclerViewAdapter(
     }
 
     lateinit var onItemClickListener : OnItemClickListener
+
     inner class ArticleViewHolder(val binding: RecyclerArticleItemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun onBind(article: ArticleResponse, position: Int){
@@ -51,5 +52,4 @@ class ArticleRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = articleList.size
-
 }

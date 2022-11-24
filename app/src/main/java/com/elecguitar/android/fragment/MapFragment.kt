@@ -221,7 +221,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         position = LatLng(it.lat.toDouble(), it.longi.toDouble())
                         map = naverMap
                         icon = OverlayImage.fromResource(R.drawable.ev_marker)
-
+                        captionTextSize = 0.001f
                         captionText = it.cpId.toString() + it.csId.toString()
                         isHideCollidedCaptions = true
 
