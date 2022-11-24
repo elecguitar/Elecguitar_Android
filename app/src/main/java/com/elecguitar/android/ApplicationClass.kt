@@ -10,21 +10,16 @@ import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     companion object{
-//         유호 ip - 집
-//         private const val IP = "192.168.0.2"
-        // 유호 ip - 싸피
-         private const val IP = "192.168.33.117"
-        // 민하 ip - 집
-//        private const val IP = "192.168.0.4"
-        // 민하 ip - 싸피
-         private const val IP = "192.168.33.116"
+
+        const val LOCAL_IP = "192.168.0.2"
+        private const val IP = "54.180.109.120"
 
         const val CHARGE_STATION_SERVICE_KEY = "fCAhTCQHRXevvOPci8dslVMalLrDtqce0l1VsrjGngDbLmDuHK5yJ1p9QAxFz92myDShnfidUhtf9XpvGcJozQ%3D%3D"
-        const val NAVER_CLIENT_ID = "v6th2fex1s"
-        const val NAVER_CLIENT_SECRET = "I7H6dfDPzUpiTnLsglLBx0b91ckD5FZNsgBbL5iv"
-        const val SERVER_URL = "http://${IP}:8080/"
-        const val EV_SERVER_URL = "http://api.odcloud.kr/api/EvInfoServiceV2/v1/"
-        const val GEOCODER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/"
+        private const val NAVER_CLIENT_ID = "v6th2fex1s"
+        private const val NAVER_CLIENT_SECRET = "I7H6dfDPzUpiTnLsglLBx0b91ckD5FZNsgBbL5iv"
+        private const val SERVER_URL = "http://${IP}/"
+        private const val EV_SERVER_URL = "http://api.odcloud.kr/api/EvInfoServiceV2/v1/"
+        private const val GEOCODER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/"
 
         lateinit var retrofit: Retrofit
         lateinit var evRetrofit: Retrofit
