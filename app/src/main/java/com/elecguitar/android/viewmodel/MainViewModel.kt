@@ -1,5 +1,7 @@
 package com.elecguitar.android.viewmodel
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.speech.tts.TextToSpeech
 import androidx.lifecycle.ViewModel
 import com.elecguitar.android.dto.Car
@@ -30,4 +32,7 @@ class MainViewModel: ViewModel() {
     var isUpload = false
     var isStartRecommend = true
     var prevFragmentPos = 4
+
+    var currImgUri: Uri? = null
+    var recommendRes: String? = null
 }
