@@ -1,5 +1,7 @@
 package com.elecguitar.android.viewmodel
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.speech.tts.TextToSpeech
 import androidx.lifecycle.ViewModel
 import com.elecguitar.android.dto.Car
@@ -26,6 +28,10 @@ class MainViewModel: ViewModel() {
     var currPositionLng: Double? = null
     var tts: TextToSpeech? = null
 
-
     var isDialogShow = false
+    var isUpload = false
+    var isStartRecommend = true
+    var prevFragmentPos = 4
+
+    var recommendRes: String? = null
 }

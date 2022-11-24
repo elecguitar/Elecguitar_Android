@@ -8,9 +8,15 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -29,6 +35,7 @@ import org.altbeacon.beacon.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Math.sqrt
 
 private const val TAG = "MainActivity_싸피"
 class MainActivity : AppCompatActivity() {
@@ -36,8 +43,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var beaconManager: BeaconManager
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var checkPermission: CheckPermission
-
     private var bluetoothAdapter: BluetoothAdapter? = null
+    private var accelerometerSensor: Sensor? = null
+    private var sensorManager: SensorManager? = null
+    private var sensorEventListener: SensorEventListener? = null
 
     val runtimePermissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -68,6 +77,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        accelerometerSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        sensorEventListener = AccelerometerListener()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, HomeFragment())
@@ -123,21 +136,56 @@ class MainActivity : AppCompatActivity() {
         this.hideBottomNav(false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        // sensor Listener 등록
+        // 구현
+        sensorManager?.registerListener(
+            sensorEventListener,
+            accelerometerSensor,
+            SensorManager.SENSOR_DELAY_UI
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // sensor Listener 삭제
+        // 구현
+        sensorManager?.unregisterListener(sensorEventListener)
+    }
+
     fun openFragment(index:Int, key:String, value:Int){
         moveFragment(index, key, value)
     }
 
     private fun moveFragment(index:Int, key:String, value:Int){
         val transaction = supportFragmentManager.beginTransaction()
-        when(index){
+        when(index) {
             // 차 상세 정보
-            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment.newInstance(key, value))
+            1 -> {
+                transaction.replace(R.id.frameLayout, CarDetailFragment.newInstance(key, value))
+                    .addToBackStack(null)
+                mainViewModel.prevFragmentPos = 1
+            }
+            2 -> {
+                transaction.replace(R.id.frameLayout, ArticleDetailFragment())
+                    .addToBackStack(null)
+                mainViewModel.prevFragmentPos = 2
+            }
+            3 -> {
+                transaction.replace(R.id.frameLayout, BenefitFragment())
+                    .addToBackStack(null)
+                mainViewModel.prevFragmentPos = 3
+            }
+            4 -> {
+                transaction.replace(R.id.frameLayout, HomeFragment())
+                    .addToBackStack(null)
+                mainViewModel.prevFragmentPos = 4
+            }
+            5 -> transaction.replace(R.id.frameLayout, RecommendFragment())
                 .addToBackStack(null)
-            2 -> transaction.replace(R.id.frameLayout, ArticleDetailFragment())
-                .addToBackStack(null)
-            3-> transaction.replace(R.id.frameLayout, BenefitFragment())
-                .addToBackStack(null)
-            4 -> transaction.replace(R.id.frameLayout, HomeFragment())
+
+            6 -> transaction.replace(R.id.frameLayout, RecommendResFragment())
                 .addToBackStack(null)
         }
         transaction.commit()
@@ -153,6 +201,47 @@ class MainActivity : AppCompatActivity() {
                 fab.visibility = View.VISIBLE
             }
         }
+    }
+
+    private val SHAKE_THRESHOLD_GRAVITY = 2.7F
+
+    // 가속도 센서 이용
+    private inner class AccelerometerListener : SensorEventListener {
+        private var count = 0
+        // 구현
+        override fun onSensorChanged(event: SensorEvent?) {
+            val axisX = event!!.values[0]
+            val axisY = event!!.values[1]
+            val axisZ = event!!.values[2]
+
+            val gravityX = axisX / SensorManager.GRAVITY_EARTH
+            val gravityY = axisY / SensorManager.GRAVITY_EARTH
+            val gravityZ = axisZ / SensorManager.GRAVITY_EARTH
+
+            val f = gravityX * gravityX + gravityY * gravityY + gravityZ * gravityZ
+            val gForce = sqrt(f.toDouble()).toFloat()
+
+            if(gForce > SHAKE_THRESHOLD_GRAVITY && mainViewModel.isStartRecommend){
+                count += 1
+                if(count >= 20){
+                    count = 0
+                    mainViewModel.isStartRecommend = false
+                    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(500, 100))
+                    };
+                    if(mainViewModel.prevFragmentPos == 1){
+                        mainViewModel.prevFragmentPos = 4
+                    }
+                    moveFragment(5,"",0)
+                }
+            }
+        }
+
+        override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+
+        }
+
     }
 
     private fun setBeacon(){
@@ -209,7 +298,6 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             eventPopUpAble = true
                         }
-                        Log.d( TAG,"distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3)
                     }
                 }
             }
@@ -261,7 +349,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object{
-        private const val PERMISSION_REQUEST_CODE = 8
+        const val PERMISSION_REQUEST_CODE = 8
         private const val BEACON_UUID = "fda50693-a4e2-4fb1-afcf-c6eb07647825"
         private const val BEACON_MAJOR = "10004"
         private const val BEACON_MINOR = "54480"
