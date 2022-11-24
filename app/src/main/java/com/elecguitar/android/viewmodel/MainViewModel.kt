@@ -33,6 +33,5 @@ class MainViewModel: ViewModel() {
     var isStartRecommend = true
     var prevFragmentPos = 4
 
-    var currImgUri: Uri? = null
     var recommendRes: String? = null
 }

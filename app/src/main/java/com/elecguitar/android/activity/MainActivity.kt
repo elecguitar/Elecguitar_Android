@@ -184,6 +184,9 @@ class MainActivity : AppCompatActivity() {
             }
             5 -> transaction.replace(R.id.frameLayout, RecommendFragment())
                 .addToBackStack(null)
+
+            6 -> transaction.replace(R.id.frameLayout, RecommendResFragment())
+                .addToBackStack(null)
         }
         transaction.commit()
     }

@@ -61,7 +61,6 @@ class RecommendFragment : Fragment() {
                 .into(binding.tvRcImg)
             try{
                 rotatedBitmap = MediaStore.Images.Media.getBitmap(mainActivity.contentResolver, imgUri)
-                mainViewModel.currImgUri = imgUri
             }catch(e: Exception){
                 e.printStackTrace()
             }
@@ -175,12 +174,10 @@ class RecommendFragment : Fragment() {
                     dis.read(newData,0,ilen)
 
                     val msg = String(newData, Charsets.UTF_8)
+                    Log.d(TAG, "run: ${msg}")
                     mainViewModel.recommendRes = msg
                     dialog.dismiss()
-                    mainActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frameLayout, RecommendResFragment())
-                        .addToBackStack(null)
+                    mainActivity.openFragment(6,"",0)
 
                 } catch(e: Exception){
                     dialog.dismiss()
