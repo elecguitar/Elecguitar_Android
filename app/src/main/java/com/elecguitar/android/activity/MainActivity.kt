@@ -16,24 +16,22 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import com.elecguitar.android.ApplicationClass
 import com.elecguitar.android.R
+import com.elecguitar.android.api.FirebaseTokenApi
 import com.elecguitar.android.databinding.ActivityMainBinding
 import com.elecguitar.android.fragment.*
 import com.elecguitar.android.util.CheckPermission
 import com.elecguitar.android.viewmodel.MainViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import org.altbeacon.beacon.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private const val TAG = "MainActivity_싸피"
 class MainActivity : AppCompatActivity() {
-
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 8
-        private const val BEACON_UUID = "fda50693-a4e2-4fb1-afcf-c6eb07647825"
-        private const val BEACON_MAJOR = "10004"
-        private const val BEACON_MINOR = "54480"
-        private const val BLUETOOTH_ADDRESS = "54:6C:0E:BD:28:4E"
-        private const val BEACON_DISTANCE = 5.0
-    }
 
     private lateinit var beaconManager: BeaconManager
     private lateinit var bluetoothManager: BluetoothManager
@@ -102,8 +100,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         setBeacon()
+        createNotificationChannel(beacon_channel_id, "elecguitar_beacon")
 
-        createNotificationChannel("ssafy_channel", "ssafy")
+        // FCM 토큰 수신
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "FCM 토큰 얻기에 실패하였습니다.", task.exception)
+                return@OnCompleteListener
+            }
+            // token log 남기기
+            Log.d(TAG, "token: ${task.result?:"task.result is null"}")
+            if(task.result != null){
+                uploadToken(task.result!!)
+            }
+        })
+        createNotificationChannel(noti_channel_id, "elecguitar_noti")
     }
 
     override fun onRestart() {
@@ -205,9 +216,6 @@ class MainActivity : AppCompatActivity() {
                         Log.d( TAG,"distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3)
                     }
                 }
-                if (isEmpty()) {
-                    Log.d(TAG, "didRangeBeaconsInRegion: 비컨을 찾을 수 없습니다.")
-                }
             }
         }
     }
@@ -245,6 +253,39 @@ class MainActivity : AppCompatActivity() {
             } else {
                 checkPermission.requestPermission()
             }
+        }
+    }
+
+    companion object{
+        private const val PERMISSION_REQUEST_CODE = 8
+        private const val BEACON_UUID = "fda50693-a4e2-4fb1-afcf-c6eb07647825"
+        private const val BEACON_MAJOR = "10004"
+        private const val BEACON_MINOR = "54480"
+        private const val BLUETOOTH_ADDRESS = "54:6C:0E:BD:28:4E"
+        private const val BEACON_DISTANCE = 5.0
+
+        // Beacon Channel ID
+        const val beacon_channel_id = "elecguitar_beacon_channel"
+
+        // Notification Channel ID
+        const val noti_channel_id = "elecguitar_noti_channel"
+
+        fun uploadToken(token:String){
+            // 새로운 토큰 수신 시 서버로 전송
+            val storeService = ApplicationClass.retrofit.create(FirebaseTokenApi::class.java)
+            storeService.uploadToken(token).enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if(response.isSuccessful){
+                        val res = response.body()
+                        Log.d(TAG, "onResponse: $res")
+                    } else {
+                        Log.d(TAG, "onResponse: Error Code ${response.code()}")
+                    }
+                }
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Log.d(TAG, t.message ?: "토큰 정보 등록 중 통신오류")
+                }
+            })
         }
     }
 }

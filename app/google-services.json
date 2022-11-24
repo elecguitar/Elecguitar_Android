@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "316019261379",
+    "project_id": "elecguitar-c4221",
+    "storage_bucket": "elecguitar-c4221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316019261379:android:31eb1faa1dfc302e234776",
+        "android_client_info": {
+          "package_name": "com.elecguitar.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "316019261379-l5flmmbq8krbac3tldkqic7habg09ek3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcnAFXSNYbcwdatdJ_GPHwbsq8NDA_BRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "316019261379-l5flmmbq8krbac3tldkqic7habg09ek3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
