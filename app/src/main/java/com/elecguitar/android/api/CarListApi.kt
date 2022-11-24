@@ -10,7 +10,7 @@ interface CarListApi {
     @GET("carapi/car")
     fun getAllCarList(): Call<List<Car>>
 
-    @GET("car/price-elecmileage")
+    @GET("carapi/car/price-elecmileage")
     fun getPriceMileageFilteredCar(
         @Query("endElecMileage") endElecMileage: Int,
         @Query("endPrice") endPrice: Int,
@@ -18,7 +18,7 @@ interface CarListApi {
         @Query("startPrice") startPrice: Int)
     : Call<List<Car>>
 
-    @GET("car/price-elecmileage-company")
+    @GET("carapi/car/price-elecmileage-company")
     fun getPriceMileageCompanyFilteredCar(
         @Query("companyList") companyList: List<String>,
         @Query("endElecMileage") endElecMileage: Int,

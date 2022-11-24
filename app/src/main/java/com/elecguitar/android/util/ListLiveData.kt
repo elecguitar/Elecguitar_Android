@@ -13,6 +13,7 @@ class ListLiveData : MutableLiveData<MutableList<Car>>() {
     }
 
     fun addAll(items: List<Car>) {
+        datas.clear()
         datas.addAll(items)
         value = datas
     }
@@ -55,5 +56,9 @@ class ListLiveData : MutableLiveData<MutableList<Car>>() {
         value = temp.filter {
             it.elecMileage > 0
         }.toMutableList()
+    }
+
+    fun getItem(position: Int): Car {
+        return datas[position]
     }
 }

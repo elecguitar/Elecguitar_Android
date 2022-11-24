@@ -70,7 +70,7 @@ class BenefitFragment : Fragment() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
                         sliderImageHandler.removeCallbacks(sliderImageRunnable)
-                        sliderImageHandler.postDelayed(sliderImageRunnable, 5000)
+                        sliderImageHandler.postDelayed(sliderImageRunnable, 2000)
                     }
                 })
 
@@ -85,7 +85,7 @@ class BenefitFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        sliderImageHandler.postDelayed(sliderImageRunnable, 5000)
+        sliderImageHandler.postDelayed(sliderImageRunnable, 2000)
     }
 
     override fun onPause() {

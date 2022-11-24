@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".fragment.CarDetailFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:menu="@menu/car_detail_menu" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/nanum_square_round_regular"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:chipCornerRadius="5dp" />
+
+        <ImageView
+            android:id="@+id/iv_car"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/car_tmp" />
+
+        <ImageView
+            android:id="@+id/iv_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/c1"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/nanum_square_round_bold"
+            android:text="현대 아이오닉 6 (1세대)"
+            android:textColor="@color/elecguitar_black"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/tv_manufacture_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2023"
+                android:fontFamily="@font/nanum_square_round_bold"
+                android:textSize="18sp"
+                android:textColor="@color/elecguitar_g1" />
+
+            <TextView
+                android:id="@+id/tv_manufacture_date_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="년형"
+                android:fontFamily="@font/nanum_square_round_bold"
+                android:textSize="18sp"
+                android:textColor="@color/elecguitar_g1" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/linear_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="가격"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="연비"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="배터리 용량"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="외장"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="주행 거리"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="정원 최대"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="모터 출력"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="최대 모터 토크"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="무게"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_bold"
+                        android:text="최대 속도"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_detail_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_mileage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_battery_capacity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_car_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_capacity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_mortor_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_mortor_toque"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/nanum_square_round_regular"
+                        android:textColor="@color/elecguitar_black"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

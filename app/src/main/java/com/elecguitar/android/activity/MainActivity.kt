@@ -119,12 +119,13 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         when(index){
             // 차 상세 정보
-//            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment())
-//                .addToBackStack(null)
-            // TODO : 뉴스 상세 넣기
+            1 -> transaction.replace(R.id.frameLayout, CarDetailFragment.newInstance(key, value))
+                .addToBackStack(null)
             2 -> transaction.replace(R.id.frameLayout, ArticleDetailFragment())
                 .addToBackStack(null)
             3-> transaction.replace(R.id.frameLayout, BenefitFragment())
+                .addToBackStack(null)
+            4 -> transaction.replace(R.id.frameLayout, HomeFragment())
                 .addToBackStack(null)
         }
         transaction.commit()
