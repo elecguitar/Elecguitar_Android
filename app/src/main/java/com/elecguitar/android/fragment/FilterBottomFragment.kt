@@ -72,14 +72,14 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
             }
 
             sliderPrice.apply {
-                valueFrom = 1000f
+                valueFrom = 0f
                 valueTo = 20000f
                 values = arrayListOf(mainViewModel.filterStartPrice.toFloat(), mainViewModel.filterEndPrice.toFloat())
                 stepSize = 1000f
             }
 
             sliderMileage.apply {
-                valueFrom = 2f
+                valueFrom = 0f
                 valueTo = 10f
                 values = arrayListOf(mainViewModel.filterStartElecMileage.toFloat(), mainViewModel.filterEndElecMileage.toFloat())
                 stepSize = 1f
@@ -126,9 +126,9 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
 
     private fun filterItems() {
         val filterCompany = mutableListOf<String>()
-        var startPrice = 1000
-        var endPrice = 12000
-        var startElecMileage = 2
+        var startPrice = 0
+        var endPrice = 20000
+        var startElecMileage = 0
         var endElecMileage = 10
 
         mainViewModel.filterCompanyIdList.clear()
@@ -154,6 +154,8 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
 
         if (filterCompany.size == 0) {
             getFilteredList(endElecMileage, endPrice, startElecMileage, startPrice)
+        } else if (startPrice == 0 && endPrice == 20000 && startElecMileage == 0 && endElecMileage == 10) {
+            getFilteredListOnlyCompany(filterCompany)
         } else {
             getFilteredListWithCompany(filterCompany, endElecMileage, endPrice, startElecMileage, startPrice)
         }
@@ -178,7 +180,27 @@ class FilterBottomFragment : BottomSheetDialogFragment() {
         override fun onFailure(code: Int) {
             Log.d("FilterBottomFragment_싸피", "onResponse: Error Code $code")
         }
+    }
 
+    private fun getFilteredListOnlyCompany(filterCompany: MutableList<String>) {
+        CarListService().getCompanyFilteredCar(filterCompany, GetCompanyFilteredCarCallback())
+    }
+
+    inner class GetCompanyFilteredCarCallback : RetrofitCallback<List<Car>> {
+        override fun onSuccess(code: Int, responseData: List<Car>) {
+            responseData.let {
+                mainViewModel.carList.replace(responseData)
+                dismiss()
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d("FilterBottomFragment_싸피", t.message ?: "차 정보 불러오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d("FilterBottomFragment_싸피", "onResponse: Error Code $code")
+        }
     }
 
     private fun getFilteredListWithCompany(filterCompany: MutableList<String>, endElecMileage: Int, endPrice: Int, startElecMileage: Int, startPrice: Int) {
