@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Beacon 사용을 위한 위치 데이터 허용 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -31,6 +30,7 @@
         android:theme="@style/Theme.Elecguitar"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <service
             android:name=".service.MyFirebaseMessageService"
             android:exported="true">
