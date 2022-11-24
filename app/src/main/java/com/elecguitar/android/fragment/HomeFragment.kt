@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -71,25 +72,10 @@ class HomeFragment : Fragment() {
                 mainViewModel.carList.addAll(responseData)
                 carAdapter = CarAdapter(mainActivity, mainViewModel.carList.value!!)
 
-                mainViewModel.carList.observe(viewLifecycleOwner) {
-                    carAdapter.datas = it
-                    carAdapter.notifyDataSetChanged()
-                }
-
-                carAdapter.onItemClickListener = object : CarAdapter.OnItemClickListener {
-                    override fun onClick(view: View, position: Int) {
-                        var carId = mainViewModel.carList.value as MutableList<Car>
-                        mainActivity.openFragment(1, "carId", carId[position].carId)
-                    }
-                }
+                carListObserve()
+                carAdapterItemClickListener()
             }
-
-            binding.recyclerview.apply {
-                layoutManager = GridLayoutManager(mainActivity, 2)
-                adapter = carAdapter
-            }
-
-
+            setRecyclerView()
         }
 
         override fun onError(t: Throwable) {
@@ -103,21 +89,40 @@ class HomeFragment : Fragment() {
 
     private fun setAdapterIfNotFirstCall() {
         carAdapter = CarAdapter(mainActivity, mainViewModel.carList.value!!)
-        binding.recyclerview.apply {
-            layoutManager = GridLayoutManager(mainActivity, 2)
-            adapter = carAdapter
-        }
+        setRecyclerView()
+        carListObserve()
+        carAdapterItemClickListener()
+    }
 
+    private fun carListObserve() {
         mainViewModel.carList.observe(viewLifecycleOwner) {
+            binding.apply {
+                if (it.size == 0) {
+                    recyclerview.visibility = View.GONE
+                    layoutEmpty.visibility = View.VISIBLE
+                } else {
+                    recyclerview.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.GONE
+                }
+            }
             carAdapter.datas = it
             carAdapter.notifyDataSetChanged()
         }
+    }
 
+    private fun carAdapterItemClickListener() {
         carAdapter.onItemClickListener = object : CarAdapter.OnItemClickListener {
             override fun onClick(view: View, position: Int) {
                 var carId = mainViewModel.carList.value as MutableList<Car>
                 mainActivity.openFragment(1, "carId", carId[position].carId)
             }
+        }
+    }
+
+    private fun setRecyclerView() {
+        binding.recyclerview.apply {
+            layoutManager = GridLayoutManager(mainActivity, 2)
+            adapter = carAdapter
         }
     }
 

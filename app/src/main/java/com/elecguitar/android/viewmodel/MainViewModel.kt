@@ -17,9 +17,9 @@ class MainViewModel: ViewModel() {
     
     var filterCompanyList = mutableListOf<String>()
     var filterCompanyIdList = mutableListOf<Int>()
-    var filterStartPrice = 1000
+    var filterStartPrice = 0
     var filterEndPrice = 20000
-    var filterStartElecMileage = 2
+    var filterStartElecMileage = 0
     var filterEndElecMileage = 10
 
     var currPositionLat: Double? = null

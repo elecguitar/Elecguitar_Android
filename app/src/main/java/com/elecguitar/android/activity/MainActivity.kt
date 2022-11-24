@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
+    var mBackWait:Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -109,7 +111,6 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             // token log 남기기
-            Log.d(TAG, "token: ${task.result?:"task.result is null"}")
             if(task.result != null){
                 uploadToken(task.result!!)
             }
@@ -185,15 +186,12 @@ class MainActivity : AppCompatActivity() {
 
     var monitorNotifier: MonitorNotifier = object : MonitorNotifier {
         override fun didEnterRegion(region: Region) { //발견 함.
-            Log.d(TAG, "I just saw an beacon for the first time!")
         }
 
         override fun didExitRegion(region: Region) { //발견 못함.
-            Log.d(TAG, "I no longer see an beacon")
         }
 
         override fun didDetermineStateForRegion(state: Int, region: Region) { //상태변경
-            Log.d(TAG, "I have just switched from seeing/not seeing beacons: $state")
         }
     }
 
@@ -208,9 +206,7 @@ class MainActivity : AppCompatActivity() {
                                 showPickUpDialog()
                                 mainViewModel.isDialogShow = true
                             }
-                            Log.d(TAG, "didRangeBeaconsInRegion: distance 이내.")
                         } else {
-                            Log.d(TAG, "didRangeBeaconsInRegion: distance 이외.")
                             eventPopUpAble = true
                         }
                         Log.d( TAG,"distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3)
@@ -240,7 +236,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy: ")
         beaconManager.stopMonitoring(region)
         beaconManager.stopRangingBeacons(region)
     }
@@ -256,13 +251,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - mBackWait >=2000 ) {
+            mBackWait = System.currentTimeMillis()
+            Toast.makeText(this, "뒤로가기 버튼을\n한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            finish() //액티비티 종료
+        }
+    }
+
     companion object{
         private const val PERMISSION_REQUEST_CODE = 8
         private const val BEACON_UUID = "fda50693-a4e2-4fb1-afcf-c6eb07647825"
         private const val BEACON_MAJOR = "10004"
         private const val BEACON_MINOR = "54480"
         private const val BLUETOOTH_ADDRESS = "54:6C:0E:BD:28:4E"
-        private const val BEACON_DISTANCE = 5.0
+        private const val BEACON_DISTANCE = 3.0
 
         // Beacon Channel ID
         const val beacon_channel_id = "elecguitar_beacon_channel"

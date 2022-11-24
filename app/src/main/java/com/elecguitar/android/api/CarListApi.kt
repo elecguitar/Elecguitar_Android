@@ -18,6 +18,11 @@ interface CarListApi {
         @Query("startPrice") startPrice: Int)
     : Call<List<Car>>
 
+    @GET("carapi/car/company")
+    fun getCompanyFilteredCar(
+        @Query("companyList") companyList: List<String>)
+    : Call<List<Car>>
+
     @GET("carapi/car/price-elecmileage-company")
     fun getPriceMileageCompanyFilteredCar(
         @Query("companyList") companyList: List<String>,

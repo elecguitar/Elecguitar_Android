@@ -146,19 +146,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_cs_cancel"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/cs_button_cancel_shape"
-            android:fontFamily="@font/nanum_square_round_bold"
-            android:text="취소"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_cs_find_road"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cs_find_road"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
@@ -168,8 +155,21 @@
             android:textSize="18sp"
             android:textColor="@color/elecguitar_white"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_cs_cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cs_cancel"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/cs_button_cancel_shape"
+            android:fontFamily="@font/nanum_square_round_bold"
+            android:text="취소"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_cs_cancel"
+            app:layout_constraintStart_toEndOf="@+id/btn_cs_find_road"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

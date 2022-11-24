@@ -146,6 +146,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Toast.makeText(requireContext(), "오류발생", Toast.LENGTH_SHORT).show()
             return
         }
+        
         result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) //인식된 데이터 list 받아옴.
         val sa: Array<String> = result!!.toTypedArray<String>()
         Log.d(TAG, "onActivityResult: $sa")
@@ -226,6 +227,28 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             currMarker!!.position = cameraFocus
         }
 
+        val eggMarker = Marker().apply{
+            position = LatLng(36.128218878932906, 128.33103199630253)
+            this.map = naverMap
+            icon = OverlayImage.fromResource(R.drawable.ev_special_marker)
+            captionTextSize = 0.001f
+            isHideCollidedCaptions = true
+
+            setOnClickListener{
+                val elapsedRealtime = SystemClock.elapsedRealtime()
+                if((elapsedRealtime - lastClickTime) < 1000){
+                    return@setOnClickListener true
+                }
+                lastClickTime = SystemClock.elapsedRealtime()
+
+                EasterEggBottomFragment.newInstance().show(
+                    parentFragmentManager, EasterEggBottomFragment.TAG
+                )
+
+                true
+            }
+        }
+        markerList.add(eggMarker)
     }
 
     private fun getCurrPosition(){
